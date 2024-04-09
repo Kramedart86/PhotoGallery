@@ -5,7 +5,6 @@ body {
     background-color: #8d91bb; /* Замените на нужный вам цвет */
 }
 
-
 h1 {
     color: #333;
 }
@@ -45,9 +44,8 @@ form {
     border-radius: 5px;
 }
 
-
 /* Скрытое модальное окно */
-.modal {
+.modal-prev {
     display: none;
     position: fixed;
     z-index: 1000;
@@ -60,10 +58,10 @@ form {
 }
 
 /* Контейнер с изображением */
-.modal-content {
+.modal-content-prev {
     display: block;
     margin: 10% auto;
-    width: 80%;
+    width: 80%; /* Масштабирование изображение в модальном окне */
     max-width: 800px; /* Максимальная ширина модального окна */
 }
 
@@ -112,4 +110,72 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
     background-color: #d40633;
+}
+
+
+/* Стили для модального окна добавления изображения */
+#addImageModal {
+    display: none; /* По умолчанию модальное окно скрыто */
+    position: fixed; /* Фиксированное положение на экране */
+    z-index: 1000; /* Перекрывает другие элементы */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Добавляем прокрутку, если содержимое больше размеров окна */
+    background-color: rgba(0, 0, 0, 0.664); /* Полупрозрачный фон */
+}
+
+/* Стили для содержимого модального окна */
+.modal-content {
+    background-color: #4f5c979c; /* Цвет фона */
+    background-size: 500px 500px; /* Размеры фонового изображения */
+    background-repeat: no-repeat; /* Запрет повтора изображения */
+    background-position: center; /* Располагаем изображение по центру */
+    margin: 20px auto; /* Выравниваем содержимое по центру */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Ширина модального окна */
+    max-width: 500px; /* Максимальная ширина */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+}
+
+/* Стили для поля выбора изображения */
+input[type="file"] {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+/* Стили для описания */
+textarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 15px;
+    resize: none; /* Запрещаем изменение размера текстового поля */
+}
+
+/* Стили для кнопки отправки */
+input[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Анимация открытия модального окна */
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
 }

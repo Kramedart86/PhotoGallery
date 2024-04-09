@@ -39,4 +39,28 @@ $(document).ready(function(){
             $("#previewImage").attr("src", newImgSrc); // Устанавливаем путь к новому изображению в модальном окне
         }
     });
+
+
+    // Открытие модального окна при клике на кнопку "Добавить"
+    $(".add-btn").click(function(){
+        $("#addImageModal").css("display", "block");
+    });
+
+    // Закрытие модального окна при клике на крестик
+    $(".close").click(function(){
+        $("#addImageModal").css("display", "none");
+    });
+
+    // Закрытие модального окна при клике вне его области
+    $(window).click(function(event) {
+        if (event.target == $("#addImageModal")[0]) {
+            $("#addImageModal").css("display", "none");
+        }
+    });
+
+    $(window).keydown(function(e) {
+        if (e.keyCode == 27) { // Код клавиши ESC
+            $("#addImageModal").css("display", "none");
+        }
+    });
 });

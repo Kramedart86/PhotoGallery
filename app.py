@@ -1,9 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 
-import os # Модуль для работы с ОС
-import uuid # Для получения уникального ID
-
 app = Flask(__name__) # Инициализация сервера
 
 @app.route('/') # Аннотация с параметром  

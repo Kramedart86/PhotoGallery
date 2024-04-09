@@ -5,8 +5,6 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-    <link type="image/x-icon" href="/"C:\Users\fikef\Downloads\image_photo_gallery_icon_250224.ico"" rel="shortcut icon">
-    <link type="Image/x-icon" href="/"C:\Users\fikef\Downloads\image_photo_gallery_icon_250224.ico"" rel="icon">   
 </head>
 <body>
     <h1>Простая Онлайн Галерея</h1>
@@ -15,16 +13,37 @@
     </form>
     <br>
     <br>
-    <div id="imagePreviewModal" class="modal">
+
+ <!-- Модальное окно для добавления изображения -->
+ <div id="addImageModal" class="modal">
+    <div class="modal-content">
         <span class="close">&times;</span>
-        <img class="modal-content" id="previewImage">
+        <!-- Содержимое формы добавления изображения -->
+        <h2>Добавить</h2>
+        <form method="post" action="{{ url_for('add_image') }}" enctype="multipart/form-data">
+            <input type="file" name="image" id="image" required><br>
+            <label for="description">Описание:</label><br>
+            <textarea name="description" id="description"></textarea><br>
+            <input type="submit" value="Добавить">
+        </form>
     </div>
-    <a href="{{ url_for('add_image') }}" class="add-btn">Добавить</a>
+</div>
+
+    <div id="imagePreviewModal" class="modal-prev">
+        <span class="close">&times;</span>
+        <img class="modal-content-prev" id="previewImage">
+    </div>
+
+    <!-- <a href="{{ url_for('add_image') }}" class="add-btn">Добавить</a> --> <!--old ver. -->
+    
+    <a href="#" class="add-btn">Добавить</a>
         <div class="image-gallery">
             {% for image in images %}
             <div class="image-item">
                 <img src="{{ url_for('static', filename='images/' + image[1]) }}" alt="{{ image[2] }}">
             </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
+
 </body>
 </html>
