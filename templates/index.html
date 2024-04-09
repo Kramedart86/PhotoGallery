@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Простая онлайн галерея</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <link type="image/x-icon" href="/"C:\Users\fikef\Downloads\image_photo_gallery_icon_250224.ico"" rel="shortcut icon">
+    <link type="Image/x-icon" href="/"C:\Users\fikef\Downloads\image_photo_gallery_icon_250224.ico"" rel="icon">   
+</head>
+<body>
+    <h1>Простая Онлайн Галерея</h1>
+    <form method="post" action="{{ url_for('clear_gallery') }}" onsubmit="return confirm('Вы уверены, что хотите удалить все изображения?');">
+        <button type="submit">Очистить галерею</button>
+    </form>
+    <br>
+    <br>
+    <div id="imagePreviewModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="previewImage">
+    </div>
+    <a href="{{ url_for('add_image') }}" class="add-btn">Добавить</a>
+        <div class="image-gallery">
+            {% for image in images %}
+            <div class="image-item">
+                <img src="{{ url_for('static', filename='images/' + image[1]) }}" alt="{{ image[2] }}">
+            </div>
+        {% endfor %}
+</body>
+</html>

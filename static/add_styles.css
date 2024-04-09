@@ -1,0 +1,44 @@
+/* Стили для заголовка */
+h1 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Стили для формы */
+form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Стили для поля выбора изображения */
+input[type="file"] {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+/* Стили для описания */
+textarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 15px;
+    resize: none; /* Запрещаем изменение размера текстового поля */
+}
+
+/* Стили для кнопки отправки */
+input[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
