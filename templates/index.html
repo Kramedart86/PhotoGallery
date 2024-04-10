@@ -19,7 +19,6 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <!-- Содержимое формы добавления изображения -->
-        <h2>Добавить</h2>
         <form method="post" action="{{ url_for('add_image') }}" enctype="multipart/form-data">
             <input type="file" name="image" id="image" required><br>
             <label for="description">Описание:</label><br>
@@ -44,6 +43,5 @@
             </div>
             {% endfor %}
         </div>
-
 </body>
 </html>
