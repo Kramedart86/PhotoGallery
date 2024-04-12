@@ -25,10 +25,11 @@
       ├── app.py
       ├── gallery.db
       ├── static/
-      │   ├── images/
-      │   ├── header2.png
-      │   ├── script.js
-      │   └── styles.css
+          ├── images/
+          ├── header2.png
+          ├── icon.png
+          ├── script.js
+          └── styles.css
       └── templates/
           └── index.html
 
