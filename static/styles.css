@@ -1,8 +1,7 @@
-/* static/styles.css */
 header {
     background-color: #333;
     background-image: url('../static/header2.png');
-    background-size: auto; /* Растянуть изображение так, чтобы оно покрывало всю область */
+    background-size: auto;
     background-position: center; /* Расположить изображение по центру */
     padding: 50px;
     text-align: center;
@@ -10,8 +9,7 @@ header {
 
 body {
     font-family: Arial, sans-serif;
-    /* Установка цвета фона */
-    background-color: #222222; /* Замените на нужный вам цвет */
+    background-color: #222222; /* Установка цвета фона */
 }
 
 h1 {
@@ -39,6 +37,11 @@ form {
     flex-wrap: wrap;
 }
 
+.image-item {
+    padding: 10px;
+    margin: 0 auto;
+}
+
 .image-item img {
     /* Установка отступов между ячейками таблицы */
     padding: 10px;
@@ -48,7 +51,7 @@ form {
     height: 200px; /* Высота изображения */
 
     /* Добавляем рамку вокруг изображения */
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     
     /* Скругляем углы изображения */
     border-radius: 5px;
@@ -112,10 +115,10 @@ a.add-btn:hover {
     background-color: #0056b3;
 }
 
-button[type="submit"] {
+button[name="clear-btn"] {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #ff0037;
+    background-color: #d40633;
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
@@ -124,9 +127,22 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #d40633;
+    background-color: #ff0c0c;
 }
 
+button[name="del-btn"] {
+    /* background-image: url('../static/delico.png'); */
+    background-size: cover;
+    border-radius: 7px;
+    opacity: 0.7;
+    background-color: #d40633;
+    color: #fff;
+    width: 100px;
+    height: 25px;
+    position: relative;
+    top: -20px; /* Смещение кнопки вниз на 20px */
+    left: 62px;
+}
 
 /* Стили для модального окна добавления изображения */
 #addImageModal {
