@@ -7,13 +7,14 @@
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
-    <h1>Простая Онлайн Галерея</h1>
-    <form method="post" action="{{ url_for('clear_gallery') }}" onsubmit="return confirm('Вы уверены, что хотите удалить все изображения?');">
-        <button type="submit">Очистить галерею</button>
-    </form>
+    <header>
+        <h1>Простая Онлайн Галерея</h1>
+        <form method="post" action="{{ url_for('clear_gallery') }}" onsubmit="return confirm('Вы уверены, что хотите удалить все изображения?');">
+            <button type="submit">Очистить галерею</button>
+        </form>
+        <a href="#" class="add-btn">Добавить</a>
+    </header>
     <br>
-    <br>
-
  <!-- Модальное окно для добавления изображения -->
  <div id="addImageModal" class="modal">
     <div class="modal-content">
@@ -27,15 +28,10 @@
         </form>
     </div>
 </div>
-
     <div id="imagePreviewModal" class="modal-prev">
         <span class="close">&times;</span>
         <img class="modal-content-prev" id="previewImage">
     </div>
-
-    <!-- <a href="{{ url_for('add_image') }}" class="add-btn">Добавить</a> --> <!--old ver. -->
-    
-    <a href="#" class="add-btn">Добавить</a>
         <div class="image-gallery">
             {% for image in images %}
             <div class="image-item">
@@ -43,5 +39,8 @@
             </div>
             {% endfor %}
         </div>
+        <footer>
+            <p>&copy; 2024 Онлайн-галерея. </p>
+        </footer>
 </body>
 </html>
