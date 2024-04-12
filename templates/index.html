@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Простая онлайн галерея</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='icon.png') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
@@ -10,7 +11,7 @@
     <header>
         <h1>Простая Онлайн Галерея</h1>
         <form method="post" action="{{ url_for('clear_gallery') }}" onsubmit="return confirm('Вы уверены, что хотите удалить все изображения?');">
-            <button type="submit">Очистить галерею</button>
+            <button type="submit" name="clear-btn">Очистить галерею</button>
         </form>
         <a href="#" class="add-btn">Добавить</a>
     </header>
@@ -32,15 +33,19 @@
         <span class="close">&times;</span>
         <img class="modal-content-prev" id="previewImage">
     </div>
-        <div class="image-gallery">
-            {% for image in images %}
-            <div class="image-item">
-                <img src="{{ url_for('static', filename='images/' + image[1]) }}" alt="{{ image[2] }}">
-            </div>
-            {% endfor %}
+    <div class="image-gallery">
+        {% for image in images %}
+        <div class="image-item">
+            <img src="{{ url_for('static', filename='images/' + image[1]) }}" alt="{{ image[2] }}">
+            <form action="{{ url_for('delete_image', image_id=image[0]) }}" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить изображение?');">
+                <button type="submit" name="del-btn">Удалить</button>
+                <!-- <p>{{ image[2] }}</p> --> <!-- эта фича отстой. Устал думать, как лучше прикрутить это. Оставлю на потом -->
+            </form>
         </div>
-        <footer>
-            <p>&copy; 2024 Онлайн-галерея. </p>
-        </footer>
+        {% endfor %}
+    </div>
+    <footer>
+        <p>&copy; 2024 Онлайн-галерея. </p>
+    </footer>
 </body>
 </html>
