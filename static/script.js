@@ -40,7 +40,6 @@ $(document).ready(function(){
         }
     });
 
-
     // Открытие модального окна при клике на кнопку "Добавить"
     $(".add-btn").click(function(){
         $("#addImageModal").css("display", "block");
@@ -62,5 +61,36 @@ $(document).ready(function(){
         if (e.keyCode == 27) { // Код клавиши ESC
             $("#addImageModal").css("display", "none");
         }
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Получаем кнопки для удаления изображений
+    var deleteButtons = document.querySelectorAll('.delete-btn');
+
+    // Назначаем обработчик события для каждой кнопки
+    deleteButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            // Получаем имя файла из атрибута data-image
+            var imageName = this.getAttribute('data-image');
+
+            // Отправляем запрос на удаление изображения
+            fetch(`/delete_image/${imageName}`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Если запрос успешно выполнен, перезагружаем страницу
+                    window.location.reload();
+                } else {
+                    // Если произошла ошибка, выводим сообщение
+                    alert('Failed to delete image');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to delete image');
+            });
+        });
     });
 });
