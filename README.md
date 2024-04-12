@@ -24,6 +24,7 @@
       ├── gallery.db
       ├── static/
       │   ├── images/
+      │   ├── header2.png
       │   ├── script.js
       │   └── styles.css
       └── templates/
