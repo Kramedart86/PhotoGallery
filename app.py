@@ -89,12 +89,12 @@ def add_image():
 def delete_image(filename):
     conn = sqlite3.connect('gallery.db')
     c = conn.cursor()
-    c.execute("SELECT * FROM images WHERE id = ?", (filename,))
+    c.execute("SELECT * FROM images WHERE filename = ?", (filename,))
     image = c.fetchone()
     if image:
         filename = image[1]
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        c.execute("DELETE FROM images WHERE id = ?", (filename,))
+        c.execute("DELETE FROM images WHERE filename = ?", (filename,))
         conn.commit()
 
     conn.close()
