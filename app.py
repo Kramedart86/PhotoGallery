@@ -72,6 +72,7 @@ def add_image():
                 new_filename = f"{name}{count}{ext}"
                 save_path = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
                 count += 1
+                filename = new_filename
 
             file.save(save_path)
             conn = sqlite3.connect('gallery.db')
@@ -84,7 +85,7 @@ def add_image():
     return render_template('add_image.html')
 
 # Функция для удаления изображения из базы данных
-@app.route('/delete_image/<int:image_id>', methods=['POST'])
+@app.route('/delete_image/<filename>', methods=['POST'])
 def delete_image(image_id):
     conn = sqlite3.connect('gallery.db')
     c = conn.cursor()
@@ -93,7 +94,7 @@ def delete_image(image_id):
     if image:
         filename = image[1]
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        c.execute("DELETE FROM images WHERE id = ?", (image_id,))
+        c.execute("DELETE FROM images WHERE id = ?", (filename,))
         conn.commit()
 
     conn.close()
