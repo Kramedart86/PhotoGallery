@@ -89,7 +89,7 @@ def add_image():
 def delete_image(filename):
     conn = sqlite3.connect('gallery.db')
     c = conn.cursor()
-    c.execute("SELECT * FROM images WHERE id = ?", (image_id,))
+    c.execute("SELECT * FROM images WHERE id = ?", (filename,))
     image = c.fetchone()
     if image:
         filename = image[1]
