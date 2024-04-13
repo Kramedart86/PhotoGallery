@@ -86,7 +86,7 @@ def add_image():
 
 # Функция для удаления изображения из базы данных
 @app.route('/delete_image/<filename>', methods=['POST'])
-def delete_image(image_id):
+def delete_image(filename):
     conn = sqlite3.connect('gallery.db')
     c = conn.cursor()
     c.execute("SELECT * FROM images WHERE id = ?", (image_id,))
