@@ -1,5 +1,6 @@
-![pog](https://github.com/Kramedart86/PhotoGallery/assets/111295359/526b98d8-5ab6-4c73-b5c4-daf55ff7ee91)
-# Простая Онлайн Галлерея (ПОГ)
+
+
+# Простая Онлайн Галлерея (ПОГ) <img src="https://github.com/Kramedart86/PhotoGallery/assets/111295359/526b98d8-5ab6-4c73-b5c4-daf55ff7ee91" width="75" height="50">
 
 ## Описание
 
