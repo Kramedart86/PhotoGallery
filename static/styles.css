@@ -37,6 +37,8 @@ form {
     overflow: auto;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 70px; /* Добавляем отступ снизу */
 }
 
 .image-item {
