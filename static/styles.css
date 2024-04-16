@@ -16,7 +16,7 @@ body {
 
 h1 {
     color: #fff;
-    background-color: #000000; /* Цвет фона текста */
+    background-color: #000000; /* Цвет выделенного текста */
 }
 
 ul {
@@ -33,8 +33,7 @@ form {
 }
 
 .image-gallery {
-    /* Установка области прокрутки для случая, когда изображения занимают больше места, чем доступно на экране */
-    overflow: auto;
+    overflow: auto; /* Установка области прокрутки для случая, когда изображения занимают больше места, чем доступно на экране */
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -47,18 +46,11 @@ form {
 }
 
 .image-item img {
-    /* Установка отступов между ячейками таблицы */
-    padding: 10px;
-    
-    /* Определение фиксированных размеров ячеек таблицы */
+    padding: 10px; /* Установка отступов между ячейками таблицы */
     width: 200px;
-    height: 200px; /* Высота изображения */
-
-    /* Добавляем рамку вокруг изображения */
-    border: 2px solid #ccc;
-    
-    /* Скругляем углы изображения */
-    border-radius: 5px;
+    height: 200px; /* Высота изображения */ 
+    border: 2px solid #ccc; /* Добавляем рамку вокруг изображения */
+    border-radius: 5px; /* Скругляем углы изображения */
 }
 
 /* Скрытое модальное окно */
@@ -103,15 +95,14 @@ form {
 /* Стили для ссылки "Добавить" */
 button[name="add-btn"] {
     display: inline-block; /* Устанавливаем блочно-строчный тип элемента */
-    padding: 10px 20px;
+    padding: 6px 15px;
     background-color: #007bff;
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s;
-    float: left; /* Выравниваем элемент по правому краю */
+    float: left;
 }
-
 
 button[name="add-btn"]:hover {
     background-color: #0056b3;
@@ -119,7 +110,7 @@ button[name="add-btn"]:hover {
 
 button[name="clear-btn"] {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 6px 15px;
     background-color: #d40633;
     color: #fff;
     text-decoration: none;
@@ -128,12 +119,7 @@ button[name="clear-btn"] {
     float: right;
 }
 
-button[type="submit"]:hover {
-    background-color: #ff0c0c;
-}
-
 button[name="del-btn"] {
-    /* background-image: url('../static/delico.png'); */
     background-size: cover;
     border-radius: 7px;
     opacity: 0.7;
@@ -141,9 +127,15 @@ button[name="del-btn"] {
     color: #fff;
     width: 100px;
     height: 25px;
+    font: Arial;
+    font-size: 13.3333px;
     position: relative;
-    top: -20px; /* Смещение кнопки вниз на 20px */
-    left: 62px;
+    top: -15px;
+    left: 50px;
+}
+
+button[type="submit"]:hover {
+    background-color: #ff0c0c;
 }
 
 /* Стили для модального окна добавления изображения */
@@ -162,9 +154,6 @@ button[name="del-btn"] {
 /* Стили для содержимого модального окна */
 .modal-content {
     background-color: #e6e6e6bd; /* Цвет фона */
-    background-size: 500px 500px; /* Размеры фонового изображения */
-    background-repeat: no-repeat; /* Запрет повтора изображения */
-    background-position: center; /* Располагаем изображение по центру */
     margin: 20px auto; /* Выравниваем содержимое по центру */
     padding: 20px;
     border: 1px solid #888;
@@ -191,7 +180,7 @@ textarea {
 }
 
 /* Стили для кнопки отправки */
-input[type="submit"] {
+input[type="submit"].modal-add {
     display: block;
     width: 100%;
     padding: 10px;
@@ -223,4 +212,85 @@ footer {
     left: 0;
     width: 100%;
     min-width: 600px; /* Пример минимальной ширины */
+}
+
+button[name="login-btn"] {
+    top: 60px;
+    right: 170px;
+}
+
+button[name="reg-btn"],
+button[name="login-btn"] {
+    background-color: #007bff; /* Цвет фона */
+    border-color: #007bff; /* Цвет границы */
+    color: #fff;
+    position: absolute;
+    padding: 1px 6px;
+}
+button[name="reg-btn"] {
+    top: 60px;
+    right: 58px;
+}
+
+button[name="reg-btn"]:hover,
+button[name="login-btn"]:hover {
+    background-color: #1e67b4; /* Цвет фона при наведении */
+    border-color: #0056b3; /* Цвет границы при наведении */
+    color: #fff; /* Цвет текста при наведении */
+}
+
+.btn-danger {
+    position: relative;
+    top: -60px; /* Расстояние от верха страницы */
+    left: 1000px; /* Расстояние от левого края страницы */
+    padding: 1px 6px;
+}
+
+input[type="submit"].btn-danger-out {
+    display: inline-block;
+    background-color: #757070; /* Цвет фона */
+    border-color: #000000; /* Цвет границы */
+    border-width: 2px;
+    border-radius: 5px;
+    color: #fff;
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    padding: 1px 4px;
+}
+
+input[type="submit"].btn-danger-out:hover {
+    background-color: #535252; /* Новый цвет фона при наведении */
+    color: #fff; 
+}
+
+button[type="submit"].btn-primary-modal {
+    background-color: #007bff; /* Новый цвет фона при наведении */
+    border-color: #0056b3; /* Новый цвет границы при наведении */
+    color: #fff; /* Цвет текста при наведении */
+}
+
+/* Стиль для кнопок с классом btn-primary-modal при наведении */
+button[type="submit"].btn-primary-modal:hover {
+    background-color: #1056a1; /* Новый цвет фона при наведении */
+    border-color: #0056b3; /* Новый цвет границы при наведении */
+    color: #fff; /* Цвет текста при наведении */
+}
+
+/* Стиль для приветственного сообщения */
+.site-msg {
+    width: 300px;
+    font-size: 20px;
+    position: absolute;
+    top: 60px;
+    right: 15px;
+    color: #fff;
+}
+
+/* Стиль для предупреждающего сообщения */
+.not-found-msg {
+    color: red;
+    position: absolute;
+    top: 62px;
+    right: 237px;
 }
