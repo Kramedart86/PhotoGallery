@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, g, session
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
 
 import os
 import sqlite3
@@ -7,6 +8,103 @@ import sqlite3
 app = Flask(__name__, template_folder="templates")
 app.config['UPLOAD_FOLDER'] = 'static/images/'
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
+app.secret_key = 'gotohellbobbykotick'  # Секретный ключ для сеансов
+
+DATABASE_ACC = 'account.db'
+DATABASE_MAIN = 'gallery.db'
+
+# Создание подключения к базе данных
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE_ACC)
+    return db
+
+# Инициализация базы данных
+def init_db():
+    with app.app_context():
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute('''CREATE TABLE IF NOT EXISTS users (
+                          id INTEGER PRIMARY KEY AUTOINCREMENT,
+                          username TEXT UNIQUE NOT NULL,
+                          password TEXT NOT NULL)''')
+        db.commit()
+
+# Закрытие подключения к базе данных
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+
+# Регистрация нового пользователя
+def register_user(username, password):
+    db = get_db()
+    cursor = db.cursor()
+    try:
+        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, generate_password_hash(password)))
+        db.commit()
+        return True
+    except sqlite3.IntegrityError:
+        # Пользователь с таким именем уже существует
+        return False
+
+# Поиск пользователя в базе данных
+def find_user(username):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users WHERE username=?", (username,))
+    return cursor.fetchone()
+
+def verify_password(username, password):
+    user = find_user(username)
+    if user and check_password_hash(user[2], password):
+        return True
+    elif user is None:
+        return "Пользователь не найден"
+    return False
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = find_user(username)
+        if user is None:
+            return render_template('index.html', message='Пользователь не найден')
+        elif check_password_hash(user[2], password):
+            session['username'] = username        
+            return redirect('/')
+        else:            
+            return render_template('index.html', message='Неправильное имя пользователя или пароль')
+    return render_template('index.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    # Создаем соединение с базой данных SQLite
+    conn = sqlite3.connect(DATABASE_MAIN)
+    c = conn.cursor()
+
+    # Выполняем SQL-запрос для получения всех изображений
+    c.execute("SELECT * FROM images")
+    images = c.fetchall()
+
+    # Закрываем соединение
+    conn.close()
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if register_user(username, password):
+            return render_template('index.html', message='Регистрация успешна', images=images)
+        else:
+            return render_template('index.html', message='Пользователь уже существует', images=images)
+    return render_template('index.html')
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.pop('username', None)
+    return redirect('/')
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -15,7 +113,7 @@ def allowed_file(filename):
 @app.route('/')
 def index():
     # Создаем соединение с базой данных SQLite
-    conn = sqlite3.connect('gallery.db')
+    conn = sqlite3.connect(DATABASE_MAIN)
     c = conn.cursor()
 
     # Выполняем SQL-запрос для получения всех изображений
@@ -25,12 +123,17 @@ def index():
     # Закрываем соединение
     conn.close()
 
-    return render_template('index.html', images=images)
+    if 'username' in session:
+        logged_in = True
+        username = session['username']
+        return render_template('index.html', logged_in=logged_in, username=username, images=images)
+
+    return render_template('index.html', logged_in=False, images=images)
 
 @app.route('/clear_gallery', methods=['POST'])
 def clear_gallery():
     # Установка соединения с базой данных
-    conn = sqlite3.connect('gallery.db')
+    conn = sqlite3.connect(DATABASE_MAIN)
     c = conn.cursor()
 
     # Удаление всех изображений из базы данных
@@ -75,7 +178,7 @@ def add_image():
                 filename = new_filename
 
             file.save(save_path)
-            conn = sqlite3.connect('gallery.db')
+            conn = sqlite3.connect(DATABASE_MAIN)
             c = conn.cursor()
             c.execute("INSERT INTO images (filename, description) VALUES (?, ?)", (filename, description))
             conn.commit()
@@ -87,7 +190,7 @@ def add_image():
 # Функция для удаления изображения из базы данных
 @app.route('/delete_image/<filename>', methods=['POST'])
 def delete_image(filename):
-    conn = sqlite3.connect('gallery.db')
+    conn = sqlite3.connect(DATABASE_MAIN)
     c = conn.cursor()
     c.execute("SELECT * FROM images WHERE filename = ?", (filename,))
     image = c.fetchone()
