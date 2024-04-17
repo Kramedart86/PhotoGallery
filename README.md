@@ -24,14 +24,16 @@
       PhotoGallery/
       ├── app.py
       ├── gallery.db
+      ├── account.db
       ├── static/
           ├── images/
-          ├── header2.png
+          ├── header3.jpg
           ├── icon.png
           ├── script.js
           └── styles.css
       └── templates/
           └── index.html
+      └── requirements.txt
 
 
 **ШАГИ:** 
