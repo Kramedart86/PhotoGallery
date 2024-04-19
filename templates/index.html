@@ -79,10 +79,10 @@
                         <!-- Форма для регистрации -->
                         <form id="registerForm" method="post" action="/register">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="registerUsername" name="username" placeholder="Имя пользователя">
+                                <input type="text" class="form-control" id="registerUsername" name="username" minlength="4" placeholder="Имя пользователя" required>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Пароль">
+                                <input type="password" class="form-control" id="registerPassword" name="password" minlength="4"  placeholder="Пароль" required>
                             </div>
                             <button type="submit" class="btn btn-primary-modal">Зарегистрироваться</button>
                         </form>
