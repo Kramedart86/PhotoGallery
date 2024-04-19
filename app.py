@@ -66,21 +66,6 @@ def verify_password(username, password):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        user = find_user(username)
-        if user is None:
-            return render_template('index.html', message='Пользователь не найден')
-        elif check_password_hash(user[2], password):
-            session['username'] = username        
-            return redirect('/')
-        else:            
-            return render_template('index.html', message='Неправильное имя пользователя или пароль')
-    return render_template('index.html')
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
     # Создаем соединение с базой данных
     conn = sqlite3.connect(DATABASE_MAIN)
     c = conn.cursor()
@@ -90,6 +75,29 @@ def register():
     images = c.fetchall()
 
     # Закрываем соединение
+    conn.close()
+
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = find_user(username)
+        if user is None:
+            return render_template('index.html', message='Пользователь не найден', images=images)
+        elif check_password_hash(user[2], password):
+            session['username'] = username        
+            return redirect('/')
+        else:            
+            return render_template('index.html', message='Неправильное имя пользователя или пароль', images=images)
+    return render_template('index.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    conn = sqlite3.connect(DATABASE_MAIN)
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM images")
+    images = c.fetchall()
+
     conn.close()
 
     if request.method == 'POST':
