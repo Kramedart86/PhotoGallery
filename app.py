@@ -13,7 +13,7 @@ app.secret_key = 'gotohellbobbykotick'  # Секретный ключ для с�
 DATABASE_ACC = 'account.db'
 DATABASE_MAIN = 'gallery.db'
 
-# Создание подключения к базе данных
+# Создание подключения к базе данных аккаунтов
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -47,8 +47,7 @@ def register_user(username, password):
         db.commit()
         return True
     except sqlite3.IntegrityError:
-        # Пользователь с таким именем уже существует
-        return False
+        return False # Пользователь с таким именем уже существует
 
 # Поиск пользователя в базе данных
 def find_user(username):
@@ -82,7 +81,7 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    # Создаем соединение с базой данных SQLite
+    # Создаем соединение с базой данных
     conn = sqlite3.connect(DATABASE_MAIN)
     c = conn.cursor()
 
@@ -92,6 +91,7 @@ def register():
 
     # Закрываем соединение
     conn.close()
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -112,15 +112,12 @@ def allowed_file(filename):
 
 @app.route('/')
 def index():
-    # Создаем соединение с базой данных SQLite
     conn = sqlite3.connect(DATABASE_MAIN)
     c = conn.cursor()
 
-    # Выполняем SQL-запрос для получения всех изображений
     c.execute("SELECT * FROM images")
     images = c.fetchall()
 
-    # Закрываем соединение
     conn.close()
 
     if 'username' in session:
@@ -132,15 +129,12 @@ def index():
 
 @app.route('/clear_gallery', methods=['POST'])
 def clear_gallery():
-    # Установка соединения с базой данных
     conn = sqlite3.connect(DATABASE_MAIN)
     c = conn.cursor()
 
     # Удаление всех изображений из базы данных
     c.execute("DELETE FROM images")
     conn.commit()
-
-    # Закрытие соединения
     conn.close()
 
     # Удаляем все изображения из папки
@@ -169,10 +163,13 @@ def add_image():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             save_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            name = os.path.splitext(filename)[0]
             count = 1
+
             while os.path.exists(save_path):
-                name, ext = os.path.splitext(filename)
-                new_filename = f"{name}{count}{ext}"
+                new_name, ext = os.path.splitext(filename)
+                new_name = name
+                new_filename = f"{new_name}{count}{ext}"
                 save_path = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
                 count += 1
                 filename = new_filename
