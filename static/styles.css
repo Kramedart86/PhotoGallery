@@ -13,7 +13,7 @@ header {
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Fira Code', Arial, sans-serif;
     background-color: #222222; /* Установка цвета фона */
 }
 
@@ -241,7 +241,7 @@ button[name="reg-btn"] {
 }
 
 button[name="login-btn"] {
-    right: 170px;
+    right: 183px;
 }
 
 button[name="reg-btn"]:hover,
@@ -297,7 +297,7 @@ button[type="submit"].btn-primary-modal:hover {
     color: #fff;
     position: absolute;
     top: 62px;
-    right: 62px;
+    right: 65px;
 }
 
 /* Стиль для предупреждающего сообщения */
@@ -305,7 +305,7 @@ button[type="submit"].btn-primary-modal:hover {
     color: red;
     position: absolute;
     top: 62px;
-    right: 237px;
+    right: 240px;
 }
 
 ::-webkit-scrollbar {
