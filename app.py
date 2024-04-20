@@ -177,7 +177,7 @@ def add_image():
             while os.path.exists(save_path):
                 new_name, ext = os.path.splitext(filename)
                 new_name = name
-                new_filename = f"{new_name}{count}{ext}"
+                new_filename = f"{new_name} ({count}){ext}"
                 save_path = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
                 count += 1
                 filename = new_filename
