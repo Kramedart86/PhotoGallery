@@ -62,6 +62,19 @@ form {
     border-radius: 5px; /* Скругляем углы изображения */
 }
 
+.description {
+    width: 200px;
+    color: #fff;
+    position: absolute;
+    background-color: #222222; /* Цвет выделенного текста */
+    text-align: center;
+    border-left: 2px solid #ccc; /* Граница слева */
+    border-right: 2px solid #ccc; /* Граница справа */
+    border-top: 2px solid #ccc; /* Граница сверху */
+    border-bottom: 2px solid #222222; /* Граница снизу */
+    border-radius: 5px;
+}
+
 /* Скрытое модальное окно */
 .modal-prev {
     display: none;
