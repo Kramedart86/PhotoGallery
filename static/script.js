@@ -11,6 +11,13 @@ $(document).ready(function(){
         $("#imagePreviewModal").css("display", "none");
     });
 
+    // Закрытие модального окна при клике вне его области
+    $(window).click(function(event) {
+        if (event.target == $("#imagePreviewModal")[0]) {
+            $("#imagePreviewModal").css("display", "none");
+        }
+    });
+    
     // Закрываем модальное окно при нажатии на клавишу ESC
     $(document).keydown(function(e) {
         if (e.keyCode == 27) { // Код клавиши ESC
