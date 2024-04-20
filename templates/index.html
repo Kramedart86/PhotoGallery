@@ -99,8 +99,7 @@
                     <!-- Содержимое формы добавления изображения -->
                     <form method="post" action="{{ url_for('add_image') }}" enctype="multipart/form-data">
                         <input type="file" name="image" id="image" required><br>
-                        <label for="description">Описание:</label><br>
-                        <textarea name="description" id="description"></textarea><br>
+                        <textarea name="description" id="description" minlength="3" maxlength="20" placeholder="Название изображения"></textarea><br>
                         <input type="submit" class="modal-add" value="Добавить">
                     </form>
                 </div>
@@ -112,12 +111,12 @@
             <div class="image-gallery">
                 {% for image in images %}
                 <div class="image-item">
+                    <p class="description">{{ image[2] }}</p> <!-- эта фича отстой. Устал думать, как лучше прикрутить это. Оставлю на потом. upd: кажется придумал C: -->
                     <img src="{{ url_for('static', filename='images/' + image[1]) }}" alt="{{ image[2] }}">
                     <form action="{{ url_for('delete_image', filename=image[1]) }}" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить изображение?');">
                         {% if logged_in and (username == 'admin' or username == 'user') %}
                             <button type="submit" name="del-btn">Удалить</button>
                         {% endif %}
-                        <!-- <p>{{ image[2] }}</p> --> <!-- эта фича отстой. Устал думать, как лучше прикрутить это. Оставлю на потом -->
                     </form>
                 </div>
                 {% endfor %}
