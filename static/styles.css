@@ -362,6 +362,14 @@ button[type="submit"].btn-primary-modal:hover {
     right: 58px;
 }
 
+/* Стиль для OK сообщения */
+.found-msg {
+    color: #1dc51d;
+    position: absolute;
+    top: 62px;
+    right: 240px;
+}
+
 /* Стиль для предупреждающего сообщения */
 .not-found-msg {
     color: red;
