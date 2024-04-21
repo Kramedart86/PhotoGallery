@@ -123,7 +123,7 @@ def register():
         username = request.form['username']
         password = request.form['password']
         if register_user(username, password):
-            return render_template('index.html', message='Регистрация успешна', images=images)
+            return render_template('index.html', message_ok='Регистрация успешна', images=images)
         else:
             return render_template('index.html', message='Пользователь уже существует', images=images)
     return render_template('index.html')
