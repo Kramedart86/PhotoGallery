@@ -13,6 +13,25 @@ app.secret_key = 'gotohellbobbykotick'  # Секретный ключ для с�
 DATABASE_ACC = 'account.db'
 DATABASE_MAIN = 'gallery.db'
 
+@app.route('/search')
+def search():
+    query = request.args.get('query')  # Получаем текст поискового запроса из URL-адреса
+    if query:
+        # Выполняем поиск в базе данных по имени файла и описанию
+        conn = sqlite3.connect(DATABASE_MAIN)
+        c = conn.cursor()
+        c.execute("SELECT * FROM images WHERE filename LIKE ? OR description LIKE ?", ('%' + query + '%', '%' + query + '%'))
+        results = c.fetchall()
+        conn.close()
+        if 'username' in session:
+            logged_in = True
+            username = session['username']
+            return render_template('index.html', results=results, username=username, logged_in=logged_in)
+        else:
+            return render_template('index.html', results=results, logged_in=False, result_message="Результаты не найдены")
+    else:
+        return "Введите текст для поиска"
+
 # Создание подключения к базе данных аккаунтов
 def get_db():
     db = getattr(g, '_database', None)
