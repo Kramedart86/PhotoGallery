@@ -8,7 +8,7 @@ import sqlite3
 app = Flask(__name__, template_folder="templates")
 app.config['UPLOAD_FOLDER'] = 'static/images/'
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
-app.secret_key = 'gotohellbobbykotick'  # Секретный ключ для сеансов
+app.secret_key = 'gotohellbobbykotick'  # Секретный ключ для сеансов. Нужен для обеспечения безопасности сессий на стороне клиента.
 
 DATABASE_ACC = 'account.db'
 DATABASE_MAIN = 'gallery.db'
