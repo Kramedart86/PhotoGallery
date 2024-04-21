@@ -22,9 +22,17 @@ h1 {
     background-color: #000000; /* Цвет выделенного текста */
 }
 
+h2 {
+    text-align: center;
+    color: white;
+}
+
 ul {
-    list-style-type: none;
-    padding: 0;
+    overflow: auto; /* Установка области прокрутки для случая, когда изображения занимают больше места, чем доступно на экране */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-bottom: 70px; /* Добавляем отступ снизу */
 }
 
 li {
@@ -33,6 +41,23 @@ li {
 
 form {
     margin-top: 20px;
+}
+
+a {
+    color: #fff;
+}
+
+a:hover {
+    color: #fff; /* Изменяем цвет текста при наведении */
+    text-decoration: none; /* Убираем подчеркивание при наведении */
+}
+
+.query-item img {
+    padding: 10px;
+    width: 300px;
+    height: 300px; 
+    border: 2px solid #ccc;
+    border-radius: 5px;
 }
 
 .content {
@@ -72,6 +97,19 @@ form {
     border-right: 2px solid #ccc; /* Граница справа */
     border-top: 2px solid #ccc; /* Граница сверху */
     border-bottom: 2px solid #222222; /* Граница снизу */
+    border-radius: 5px;
+}
+
+.query-description {
+    width: 300px;
+    color: #fff;
+    position: absolute;
+    background-color: #222222;
+    text-align: center;
+    border-left: 2px solid #ccc;
+    border-right: 2px solid #ccc;
+    border-top: 2px solid #ccc;
+    border-bottom: 2px solid #222222;
     border-radius: 5px;
 }
 
@@ -219,6 +257,17 @@ input[type="submit"].modal-add {
 
 input[type="submit"]:hover {
     background-color: #5b9c10;
+}
+
+input[name="query"] {
+    width: 150px;
+    position: absolute;
+    top: 58px;
+    left: 58px;
+    border-radius: 5px;
+    background-color: black;
+    border-color: #1b7ee7;
+    color: #ccc;
 }
 
 /* Анимация открытия модального окна */
