@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <h1>Простая Онлайн Галерея</h1>
+        <h1><a href="/">Простая Онлайн Галерея</a></h1>
         {% if logged_in %}
             {% if username == 'admin' %}
             <form method="post" action="{{ url_for('clear_gallery') }}" onsubmit="return confirm('Вы уверены, что хотите удалить все изображения?');">
@@ -25,6 +25,9 @@
             {% endif %}
         {% endif %}
         <div class="container">
+            <form action="/search" method="GET">
+                <input type="text" name="query" placeholder="Поиск">
+            </form>
             {% if logged_in %}
             <p class="site-msg">Добро пожаловать, {{ username }}!</p>
             <form action="/logout" method="post">
@@ -122,6 +125,20 @@
                 {% endfor %}
             </div>
         </div>
+        {% if results %}
+        <ul>
+        {% for image in results %}
+        <div id="imagePreviewModal" class="modal-prev">
+            <span class="close">&times;</span>
+            <img class="modal-content-prev" id="previewImage">
+        </div>
+        <div class="query-item">
+            <p class="query-description">{{ image[2] }}</p>
+            <img src="{{ url_for('static', filename='images/' + image[1]) }}" alt="{{ image[2] }}">
+        </div>
+        {% endfor %}
+        </ul>
+        {% endif %}
     <!-- Подключение скриптов Bootstrap и jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
