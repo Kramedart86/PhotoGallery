@@ -26,7 +26,7 @@
         {% endif %}
         <div class="container">
             <form action="/search" method="GET">
-                <input type="text" name="query" placeholder="Поиск">
+                <input type="text" name="query" placeholder="Поиск" maxlength="20">
             </form>
             {% if logged_in %}
             <p class="site-msg">Добро пожаловать, {{ username }}!</p>
