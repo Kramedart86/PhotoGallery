@@ -6,6 +6,13 @@ $(document).ready(function(){
         $("#imagePreviewModal").css("display", "block"); // Открываем модальное окно
     });
 
+    // Находим все изображения с классом "query-item"
+    $(".query-item img").click(function(){
+        var imgSrc = $(this).attr("src"); // Получаем путь к изображению
+        $("#previewImage").attr("src", imgSrc); // Устанавливаем путь к изображению в модальном окне
+        $("#imagePreviewModal").css("display", "block"); // Открываем модальное окно
+    });
+
     // Закрываем модальное окно по клику на крестик
     $(".close").click(function(){
         $("#imagePreviewModal").css("display", "none");
@@ -44,6 +51,27 @@ $(document).ready(function(){
             }
             var newImgSrc = $(images[currentIndex]).attr("src"); // Получаем путь к новому изображению
             $("#previewImage").attr("src", newImgSrc); // Устанавливаем путь к новому изображению в модальном окне
+        }
+    });
+    
+    $(document).keydown(function(e) {
+        if ($("#imagePreviewModal").css("display") == "block") { 
+            var imgSrc = $("#previewImage").attr("src");
+            var images = $(".query-item img");
+            var currentIndex = images.index(images.filter('[src="' + imgSrc + '"]'));
+
+            switch(e.keyCode) {
+                case 37:
+                    currentIndex = (currentIndex - 1 + images.length) % images.length;
+                    break;
+                case 39:
+                    currentIndex = (currentIndex + 1) % images.length;
+                    break;
+                default:
+                    return;
+            }
+            var newImgSrc = $(images[currentIndex]).attr("src");
+            $("#previewImage").attr("src", newImgSrc);
         }
     });
 
