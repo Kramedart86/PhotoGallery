@@ -37,6 +37,7 @@
             {% if message %}
             <p class="not-found-msg">{{ message }}</p>
             {% else %}
+            <p class="found-msg">{{ message_ok }}</p>
             <p class="site-msg"></p>
             {% endif %}
             <button type="button" class="btn btn-primary-main" data-toggle="modal" data-target="#loginModal" name="login-btn">Вход</button>
