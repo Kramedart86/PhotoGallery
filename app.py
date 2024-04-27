@@ -11,26 +11,6 @@ app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
 app.secret_key = 'gotohellbobbykotick'  # Секретный ключ для сеансов. Нужен для обеспечения безопасности сессий на стороне клиента.
 
 DATABASE_ACC = 'account.db'
-DATABASE_MAIN = 'gallery.db'
-
-@app.route('/search')
-def search():
-    query = request.args.get('query')  # Получаем текст поискового запроса из URL-адреса
-    if query:
-        # Выполняем поиск в базе данных по имени файла и описанию
-        conn = sqlite3.connect(DATABASE_MAIN)
-        c = conn.cursor()
-        c.execute("SELECT * FROM images WHERE filename LIKE ? OR description LIKE ?", ('%' + query + '%', '%' + query + '%'))
-        results = c.fetchall()
-        conn.close()
-        if 'username' in session:
-            logged_in = True
-            username = session['username']
-            return render_template('index.html', results=results, username=username, logged_in=logged_in)
-        else:
-            return render_template('index.html', results=results, logged_in=False, result_message="Результаты не найдены")
-    else:
-        return "Введите текст для поиска"
 
 # Создание подключения к базе данных аккаунтов
 def get_db():
@@ -56,6 +36,39 @@ def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
+
+@app.route('/search')
+def search():
+    query = request.args.get('query')  # Получаем текст поискового запроса из URL-адреса
+    if query:
+        # Выполняем поиск в базе данных по имени файла и описанию
+        conn = sqlite3.connect(DATABASE_ACC)
+        c = conn.cursor()
+        c.execute("SELECT * FROM images WHERE description LIKE ? OR username LIKE ?", ('%' + query + '%', '%' + query + '%',))
+        results = c.fetchall()
+        conn.close()
+        if 'username' in session:
+            logged_in = True
+            username = session['username']
+            return render_template('index.html', results=results, username=username, logged_in=logged_in)
+        else:
+            return render_template('index.html', results=results, logged_in=False, result_message="Результаты не найдены")
+    else:
+        return "Введите текст для поиска"
+
+@app.route('/get_profile')
+def get_profile():
+    query = request.args.get('query')  # Получаем текст поискового запроса из URL-адреса
+    if query:
+        conn = sqlite3.connect(DATABASE_ACC)
+        c = conn.cursor()
+        c.execute("SELECT * FROM images WHERE username LIKE ?", ('%' + query + '%',))
+        results = c.fetchall()
+        conn.close()
+        if 'username' in session:
+            logged_in = True
+            username = session['username']   
+        return render_template('index.html', results=results, username=username, logged_in=logged_in)
 
 # Регистрация нового пользователя
 def register_user(username, password):
@@ -86,7 +99,7 @@ def verify_password(username, password):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     # Создаем соединение с базой данных
-    conn = sqlite3.connect(DATABASE_MAIN)
+    conn = sqlite3.connect(DATABASE_ACC)
     c = conn.cursor()
 
     # Выполняем SQL-запрос для получения всех изображений
@@ -111,7 +124,7 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    conn = sqlite3.connect(DATABASE_MAIN)
+    conn = sqlite3.connect(DATABASE_ACC)
     c = conn.cursor()
 
     c.execute("SELECT * FROM images")
@@ -139,7 +152,7 @@ def allowed_file(filename):
 
 @app.route('/')
 def index():
-    conn = sqlite3.connect(DATABASE_MAIN)
+    conn = sqlite3.connect(DATABASE_ACC)
     c = conn.cursor()
 
     c.execute("SELECT * FROM images")
@@ -156,7 +169,7 @@ def index():
 
 @app.route('/clear_gallery', methods=['POST'])
 def clear_gallery():
-    conn = sqlite3.connect(DATABASE_MAIN)
+    conn = sqlite3.connect(DATABASE_ACC)
     c = conn.cursor()
 
     # Удаление всех изображений из базы данных
@@ -171,6 +184,31 @@ def clear_gallery():
         os.remove(file_path)
 
     # Перенаправление пользователя на главную страницу
+    return redirect(url_for('index'))
+
+
+@app.route('/delete_user_images', methods=['POST'])
+def delete_user_images():
+    # Получаем имя пользователя из сеанса
+    username = session.get('username')
+
+    conn = sqlite3.connect(DATABASE_ACC)
+    c = conn.cursor()
+
+    # Выбираем все изображения конкретного пользователя
+    c.execute("SELECT filename FROM images WHERE username = ?", (username,))
+    user_images = c.fetchall()
+    
+    for image in user_images:
+        filename = image[0]
+        # Удаляем изображение из локальной папки
+        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    
+    # Удаляем изображения из базы данных
+    c.execute("DELETE FROM images WHERE username = ?", (username,))
+    conn.commit()
+
+    conn.close()
     return redirect(url_for('index'))
 
 @app.route('/add_image', methods=['GET', 'POST'])
@@ -202,9 +240,14 @@ def add_image():
                 filename = new_filename
 
             file.save(save_path)
-            conn = sqlite3.connect(DATABASE_MAIN)
+
+            # Получаем текущего пользователя из сеанса
+            username = session.get('username')
+
+            conn = sqlite3.connect(DATABASE_ACC)
             c = conn.cursor()
-            c.execute("INSERT INTO images (filename, description) VALUES (?, ?)", (filename, description))
+            
+            c.execute("INSERT INTO images (filename, description, username) VALUES (?, ?, ?)", (filename, description, username))
             conn.commit()
             conn.close()
             return redirect(url_for('index'))   
@@ -214,11 +257,15 @@ def add_image():
 # Функция для удаления изображения из базы данных
 @app.route('/delete_image/<filename>', methods=['POST'])
 def delete_image(filename):
-    conn = sqlite3.connect(DATABASE_MAIN)
+    # Получаем имя пользователя из сеанса
+    username = session.get('username')
+
+    conn = sqlite3.connect(DATABASE_ACC)
     c = conn.cursor()
-    c.execute("SELECT * FROM images WHERE filename = ?", (filename,))
+    c.execute("SELECT username, filename FROM images WHERE filename = ?", (filename,))
     image = c.fetchone()
-    if image:
+    
+    if image and image[0] == username:
         filename = image[1]
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         c.execute("DELETE FROM images WHERE filename = ?", (filename,))
