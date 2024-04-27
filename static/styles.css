@@ -89,7 +89,7 @@ a:hover { color: #fff; text-decoration: none;  }
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.397); /* Черный цвет с прозрачностью */
+    background: linear-gradient(to right, #00000077, #00000080, #00000077); /* Черный цвет с прозрачностью */
     opacity: 0; /* Скрыть квадрат по умолчанию */
     transition: opacity 0.3s ease; /* Добавляем плавный эффект перехода */
     pointer-events: none;
@@ -103,6 +103,7 @@ a:hover { color: #fff; text-decoration: none;  }
     left: 10px;
     font-weight: bold;
     font-size: 20px;
+    text-shadow: 3px 3px 5px black;
 }
 
 .description-overlay {
