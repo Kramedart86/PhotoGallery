@@ -92,6 +92,7 @@ a:hover { color: #fff; text-decoration: none;  }
     background-color: rgba(0, 0, 0, 0.397); /* Черный цвет с прозрачностью */
     opacity: 0; /* Скрыть квадрат по умолчанию */
     transition: opacity 0.3s ease; /* Добавляем плавный эффект перехода */
+    pointer-events: none;
 }
 
 .description {
