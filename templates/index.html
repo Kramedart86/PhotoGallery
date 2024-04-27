@@ -210,9 +210,7 @@
                         </div>
                         <form action="{{ url_for('delete_image', filename=image[1]) }}" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить изображение?');">
                             <div class="description-overlay">
-                                {% if logged_in and (username == image[3]) or (username == 'admin') %}
-                                    <button type="submit" name="prvt-del-btn">Удалить</button>
-                                {% elif logged_in and (username == 'moder') %}
+                                {% if logged_in and (username == image[3]) %}
                                     <button type="submit" name="prvt-del-btn">Удалить</button>
                                 {% endif %}
                             </div>
