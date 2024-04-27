@@ -129,3 +129,57 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
+
+function toggleDropdown() {
+    var dropdownMenu = document.getElementById("myDropdown");
+    dropdownMenu.classList.toggle("show");
+}
+  
+// Закрытие выпадающего меню при щелчке за его пределами
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+$(document).ready(function() {
+    $('#logout-link').click(function(e) {
+        e.preventDefault(); // Предотвращаем выполнение стандартного действия по переходу по ссылке
+        
+        // Отправляем POST-запрос на указанный адрес
+        $.post('/logout', function(data) {
+            // Обработка ответа сервера, если это необходимо
+            // Например, перенаправление пользователя на другую страницу
+            window.location.href = '/'; // Перенаправление на главную страницу
+        });
+    });
+});
+
+/* Устанавливаем ширину сайдбара 250px */
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+}
+
+/* Устанавливаем ширину сайдбара 0 */
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}
+
+window.onscroll = function() {
+    var header = document.getElementById("myHeader");
+    var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (scrollPosition > 50) { // Если пролистали более 200px
+        header.style.top = "-5.6%"; // Изменяем значение top на -50px
+    } else {
+        header.style.top = "0"; // Возвращаем шапку на место
+    }
+}
