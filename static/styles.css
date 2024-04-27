@@ -2,30 +2,31 @@ header {
     background-image: url('../static/header3.jpg');
     background-size: 100%;
     background-position: 100% 83%; /* Расположить изображение по центру */
-    border: 1px solid white; 
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white; 
     padding: 50px;
     text-align: center;
     position: fixed;
+    transition: top 0.3s; /* Плавное изменение положения */
     width: 100%;
     z-index: 1;
     top: 0%;
     height: 158px;
+    min-width: 750px;
 }
 
 body {
     font-family: 'Fira Code', Arial, sans-serif;
-    background-color: #222222; /* Установка цвета фона */
+    background-color: #06070d; /* Установка цвета фона */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Устанавливаем минимальную высоту body равной высоте окна браузера */
 }
 
-h1 {
-    color: #fff;
-    background-color: #000000; /* Цвет выделенного текста */
-}
+h1 { color: #fff; background-color: #000000; /* Цвет выделенного текста */ }
 
-h2 {
-    text-align: center;
-    color: white;
-}
+h2 { text-align: center; color: white; }
 
 ul {
     overflow: auto; /* Установка области прокрутки для случая, когда изображения занимают больше места, чем доступно на экране */
@@ -33,71 +34,94 @@ ul {
     flex-wrap: wrap;
     justify-content: space-evenly;
     margin-bottom: 70px; /* Добавляем отступ снизу */
+    max-width: 95%;
 }
 
-li {
-    margin-bottom: 10px;
-}
+li { margin-bottom: 10px; }
 
-form {
-    margin-top: 20px;
-}
+form { margin-top: 20px; }
 
-a {
-    color: #fff;
-}
+a { color: #fff; }
 
-a:hover {
-    color: #fff; /* Изменяем цвет текста при наведении */
-    text-decoration: none; /* Убираем подчеркивание при наведении */
-}
+/* Изменяем цвет текста при наведении и убираем подчеркивание при наведении */
+a:hover { color: #fff; text-decoration: none;  }
 
-.query-item img {
-    padding: 10px;
-    width: 300px;
-    height: 300px; 
-    border: 2px solid #ccc;
-    border-radius: 5px;
-}
-
-.content {
-    margin-top: 170px; /* Высота фиксированного заголовка */
-    padding: 20px;
-    overflow-y: auto; /* Включение вертикальной прокрутки */
+.content-main {
+    margin-top: 140px;
+    padding: 60px;
+    overflow-y: auto;
+    min-width: 750px;
+    max-width: 100%;
 }
 
 .image-gallery {
-    overflow: auto; /* Установка области прокрутки для случая, когда изображения занимают больше места, чем доступно на экране */
+    /* overflow: auto; */ /* Установка области прокрутки для случая, когда изображения занимают больше места, чем доступно на экране */
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 70px; /* Добавляем отступ снизу */
 }
 
-.image-item {
-    padding: 10px;
-    margin: 0 auto;
+.image-item,
+.query-item { padding: 2px; margin: 0 auto; }
+
+.image-item img,
+.query-item img {
+    min-height: 160px;
+    max-height: 200px;
+    height: 200px;
+    border: 2px solid #ccc0;
+    border-radius: 5px;
 }
 
-.image-item img {
-    padding: 10px; /* Установка отступов между ячейками таблицы */
-    width: 200px;
-    height: 200px; /* Высота изображения */ 
-    border: 2px solid #ccc; /* Добавляем рамку вокруг изображения */
-    border-radius: 5px; /* Скругляем углы изображения */
+.image-container {
+    position: relative;
+    display: inline-block; /* Чтобы элемент занимал только необходимое пространство */
+}
+
+.image-container:hover .overlay {
+    opacity: 1; /* Показываем квадрат при наведении на изображение */
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.397); /* Черный цвет с прозрачностью */
+    opacity: 0; /* Скрыть квадрат по умолчанию */
+    transition: opacity 0.3s ease; /* Добавляем плавный эффект перехода */
 }
 
 .description {
-    width: 200px;
-    color: #fff;
+    color: wheat;
     position: absolute;
-    background-color: #222222; /* Цвет выделенного текста */
-    text-align: center;
-    border-left: 2px solid #ccc; /* Граница слева */
-    border-right: 2px solid #ccc; /* Граница справа */
-    border-top: 2px solid #ccc; /* Граница сверху */
-    border-bottom: 2px solid #222222; /* Граница снизу */
-    border-radius: 5px;
+    width: 200px;
+    top: 105px;
+    left: 10px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.description-overlay {
+    opacity: 0; /* Начальная непрозрачность */
+    transition: opacity 0.3s ease; /* Плавное изменение прозрачности */
+    display: flex;
+    position: absolute;
+}
+
+.image-item:hover .description-overlay { opacity: 1; } /* Сделать оверлей непрозрачным при наведении */
+
+.author,
+.private-description {
+    color: wheat;
+    position: absolute;
+    width: 200px;
+    top: 140px;
+    left: 10px;
+    font-size: 14px;
+    text-shadow: 3px 3px 5px black;
 }
 
 .query-description {
@@ -141,15 +165,12 @@ a:hover {
     right: 25px;
     font-size: 35px;
     font-weight: bold;
+    color: #fff;
     transition: 0.3s;
 }
 
 .close:hover,
-.close:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
-}
+.close:focus { color: #bbb; text-decoration: none; cursor: pointer; }
 
 /* Стили для ссылки "Добавить" и "Очистить галерею" */
 button[name="add-btn"],
@@ -164,37 +185,44 @@ button[name="clear-btn"] {
     bottom: 5px;
 }
 
-button[name="add-btn"] {
-    background-color: #007bff;
-    left: 50px;
-}
+button[name="clear-btn"] { background-color: #af4c4c; right: 50px; }
 
-button[name="clear-btn"] { 
-    background-color: #d40633;
-    right: 50px;
-}
+button[type="submit"]:hover { background-color: #9b2c2c; }
 
-button[name="add-btn"]:hover {
-    background-color: #315dee;
-}
+button[name="add-btn"] { background-color: #4CAF50; left: 50px; }
 
-button[name="del-btn"] {
+button[name="add-btn"]:hover { background-color: #1d9718; }
+
+button[name="del-btn"] { top: 165px; }
+
+button[name="prvt-del-btn"] { top: -35px; }
+
+button[name="del-btn"],
+button[name="prvt-del-btn"],
+button[name="delete-all-btn"] {
     background-size: cover;
-    border-radius: 7px;
-    opacity: 0.7;
-    background-color: #d40633;
+    border-radius: 5px;
+    background-color: #af4c4c;
     color: #fff;
-    width: 100px;
-    height: 25px;
-    font: Arial;
     font-size: 13.3333px;
     position: relative;
-    top: -15px;
-    left: 50px;
+    left: 38px;
+    transform: translate(-50%, -50%);
 }
 
-button[type="submit"]:hover {
-    background-color: #ff0c0c;
+button[name="delete-all-btn"] {
+    position: absolute;
+    background-color: #0a060600;
+    border: solid 1px #fff;
+    top: 175px;
+    left: 105px;
+    width: 109px;
+}
+
+button[name="delete-all-btn"]:hover {
+    background-color: #0a060600;
+    color: #c93535;
+    border-color: #c93535;
 }
 
 /* Стили для модального окна добавления изображения */
@@ -217,6 +245,7 @@ button[type="submit"]:hover {
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Ширина модального окна */
+    height: 40%; /* Высота модального окна */
     max-width: 500px; /* Максимальная ширина */
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     animation-name: animatetop;
@@ -229,25 +258,39 @@ button[type="submit"]:hover {
 textarea {
     background-color: #212529;
     width: 100%;
-    height: 100px;
+    position: absolute;
+    top: 220px;
+    right: 0px;
     margin-bottom: 15px;
-    resize: none; /* Запрещаем изменение размера текстового поля */
+    resize: none;
     color: #fff;
 }
 
 /* Стили для поля выбора изображения */
 input[type="file"] {
     display: block;
+    position: absolute;
+    top: 116px;
     width: 100%;
     margin-bottom: 15px;
+    width: 415px;
+    max-width: 100%;
+    color: #fff;
+    padding: 5px;
+    background: #555;
+    border-radius: 10px;
+    border: 1px solid #000000;
 }
 
 /* Стили для кнопки отправки */
 input[type="submit"].modal-add {
     display: block;
+    position: absolute;
+    top: 280px;
+    right: 0px;
     width: 100%;
-    padding: 10px;
-    background-color: #4c5740;
+    padding: 5px;
+    background-color: #4CAF50;
     color: #fff;
     border-radius: 5px;
     border-color: #000000;
@@ -255,9 +298,7 @@ input[type="submit"].modal-add {
     transition: background-color 0.3s;
 }
 
-input[type="submit"]:hover {
-    background-color: #5b9c10;
-}
+input[type="submit"].modal-add:hover { background-color: #1d9718; }
 
 input[name="query"] {
     width: 150px;
@@ -266,7 +307,7 @@ input[name="query"] {
     left: 58px;
     border-radius: 5px;
     background-color: black;
-    border-color: #1b7ee7;
+    border-color: #4CAF50;
     color: #ccc;
 }
 
@@ -277,44 +318,33 @@ input[name="query"] {
 }
 
 footer {
-    background-color: #333;
+    background: linear-gradient(360deg, #12141600, #131618);
     color: #fff;
     text-align: center;
     padding: 10px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    margin-top: auto;
     width: 100%;
-    min-width: 600px; /* Пример минимальной ширины */
+    min-width: 750px; /* Пример минимальной ширины */
 }
 
 button[name="reg-btn"],
 button[name="login-btn"] {
-    border-color: #1b7ee7; /* Цвет границы */
+    border-color: #4CAF50; /* Цвет границы */
     color: #fff;
     position: absolute;
     padding: 1px 6px;
     top: 60px;
 }
 
-button[name="reg-btn"] {
-    background-color: #007bff;/* Цвет фона */
-    right: 58px;
-}
+button[name="reg-btn"] { background-color: #4CAF50; right: 58px; }
 
-button[name="login-btn"] {
-    right: 183px;
-}
+button[name="login-btn"] { right: 183px; }
 
+ /* Цвет границы при наведении цвет текста при наведении */
 button[name="reg-btn"]:hover,
-button[name="login-btn"]:hover {
-    border-color: #0056b3; /* Цвет границы при наведении */
-    color: #fff; /* Цвет текста при наведении */
-}
+button[name="login-btn"]:hover { border-color: #1d9718; color: #fff;  }
 
-button[name="reg-btn"]:hover {
-    background-color: #315dee;
-}
+button[name="reg-btn"]:hover { background-color: #1d9718; }
 
 .btn-danger {
     position: relative;
@@ -325,41 +355,28 @@ button[name="reg-btn"]:hover {
 
 input[type="submit"].btn-danger-out {
     display: inline-block;
-    background-color: #757070;
-    border-color: #000000;
-    border-width: 2px;
-    border-radius: 5px;
-    color: #fff;
+    background-color: #75707000;
+    color: #818181;
     position: absolute;
-    top: 7px;
-    right: 7px;
+    top: 180px;
+    right: 14px;
     padding: 1px 4px;
 }
 
-input[type="submit"].btn-danger-out:hover {
-    background-color: #535252; /* Новый цвет фона при наведении */
-    color: #fff; 
-}
+input[type="submit"].btn-danger-out:hover { border-color: #fff; color: #fff; }
 
-button[type="submit"].btn-primary-modal {
-    background-color: rgb(47, 139, 238); /* Новый цвет фона при наведении */
-    border-color: #0056b3; /* Новый цвет границы при наведении */
-    color: #fff; /* Цвет текста при наведении */
-}
+/* Новый цвет фона, границы, текста при наведении для кнопок с классом btn-primary-modal */
+button[type="submit"].btn-primary-modal { background-color: #4CAF50; border-color: #1d9718; color: #fff; }
 
-/* Стиль для кнопок с классом btn-primary-modal при наведении */
-button[type="submit"].btn-primary-modal:hover {
-    background-color: #315dee; /* Новый цвет фона при наведении */
-    border-color: #0056b3; /* Новый цвет границы при наведении */
-    color: #fff; /* Цвет текста при наведении */
-} 
+/* Новый цвет фона, границы, текста при наведении для кнопок с классом btn-primary-modal при наведении */
+button[type="submit"].btn-primary-modal:hover { background-color: #1d9718; border-color: #1d9718; color: #fff; } 
 
 /* Стиль для приветственного сообщения */
 .site-msg {
     color: #fff;
     position: absolute;
     top: 62px;
-    right: 58px;
+    right: 108px;
 }
 
 /* Стиль для OK сообщения */
@@ -378,11 +395,231 @@ button[type="submit"].btn-primary-modal:hover {
     right: 240px;
 }
 
-::-webkit-scrollbar {
-    background-color: #f0f0f0; /* Изменение цвета фона скроллбара */
-    width: 10px; /* Ширина скроллбара */
+/* Изменение цвета фона скроллбара и его ширины */
+::-webkit-scrollbar { background-color: #494949; width: 10px;  }
+
+/* Изменение цвета ползунка скроллбара */
+::-webkit-scrollbar-thumb { background-color: #686565; }
+
+/* Стили для кнопки профиля */
+.dropbtn {
+    background-color: #00000000;
+    border-left: none;
+    border-top: none;
+    border-bottom: solid 2px #818181;
+    color: #818181;
+    font-size: 16px;
 }
 
-::-webkit-scrollbar-thumb {
-    background-color: #615f5f; /* Изменение цвета ползунка скроллбара */
+.dropbtn:hover { color: #fff; }
+
+/* Стили для контейнера всего меню */
+.dropdown {
+    position: absolute;
+    right: 68px;
+    top: 61px;
+    border: none;
+}
+
+/* Стили для выпадающего меню */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #757070;
+    min-width: 160px;
+    border-radius: 5px;
+    right: 0px;
+    box-shadow: 0px 8px 16px 0px #00000033;
+    z-index: 1;
+}
+
+/* Стили для ссылок в выпадающем меню */
+.dropdown-content a {
+    color: #fff;
+    background-color: #111;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: block;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Стили для ссылок при наведении */
+.dropdown-content a:hover { background-color: #353535; color: #fff; }
+
+/* Отображение выпадающего меню при нажатии на кнопку */
+.show { display:block; }
+
+/* Расстояние между текстом и иконкой */
+.github-icon { margin-top: 10px; }
+
+/* Иконка и её размер */
+.github-icon i { background-image: url('../static/icon.png'); font-size: 24px; }
+
+@media (max-width: 1030px) {
+    button[name="login-btn"],
+    button[name="reg-btn"],
+    input[name="query"],
+    button[name="clear-btn"],
+    button[name="add-btn"],
+    span[name="menu"][onclick="openNav()"],
+    .dropbtn {
+      display: none;
+    }
+}
+
+span[name="menu"] { display: none; }
+
+/* Боковое навигационное меню */
+.sidenav { display: none; }
+
+/* Навигация по меню */
+.sidenav a { display: none }
+
+.sidenav a:hover { color: #f1f1f1; }
+
+/* Позиция и стиль для кнопки закрытия сайдбара (правый верхний угол) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 54px;
+    right: 11px;
+    font-size: 16px;
+    margin-left: 50px;
+}
+
+#main { transition: margin-left .5s; padding: 20px; }
+
+@media screen and (min-height: 300px) {
+    .sidenav { padding-top: 15px; }
+    .sidenav a { font-size: 18px; }
+}
+
+/* Показать кнопки только на маленьких экранах */
+@media screen and (max-width: 1030px) {
+    span[name="menu"].visible-on-small-screen {
+        display: inline;
+        position: absolute;
+        top: 60px;
+        right: 70px;
+        background-color: #111;
+        border: solid 2px #4CAF50;
+        width: 50px;
+        border-radius: 5px;
+        color: #ffffff;
+    }
+
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+        position: absolute;
+        right: 10px;
+        top: 95px;
+    }
+
+    .sidenav {
+        display: inline-block;
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        right: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        padding-top: 60px;
+        transition: 0.5s; 
+    }
+
+    button[name="login-btn"].visible-on-small-screen,
+    button[name="reg-btn"].visible-on-small-screen,
+    .query.visible-on-small-screen {
+        display: inline-block;
+        position: absolute;
+        top: 61px;
+    }
+
+    button[name="reg-btn"].visible-on-small-screen { right: 57px; }
+
+    button[name="login-btn"].visible-on-small-screen { right: 182px; }
+
+    .query.visible-on-small-screen {
+        position: absolute;
+        top: 10px;
+        left: 15px;
+        width: 220px;
+    }
+
+    .username.visible-on-small-screen {
+        position: absolute;
+        top: 62px;
+        right: 19px;
+        color: #818181;
+        border-bottom: solid;
+    }
+
+    button[name="add-btn"].visible-on-small-screen, 
+    button[type="submit"].visible-on-small-screen,
+    button[name="delete-all-btn"].visible-on-small-screen { display: inline-block; position: absolute; }
+
+    button[type="submit"].visible-on-small-screen { right: 7px; }
+
+    button[name="add-btn"].visible-on-small-screen { left: 7px; }
+
+    button[name="delete-all-btn"].visible-on-small-screen {
+        left: 182px;
+        top: 152px;
+        padding: 3px 3px;
+        width: 109px;
+        border: none;
+        color: #818181;
+        font-size: 15px;
+    }
+
+    button[name="delete-all-btn"].visible-on-small-screen:hover {
+        color: #c93535;
+        border: solid 1px #c93535;
+    }
+}
+
+input[type=file]::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    background: #4CAF50;
+    padding: 10px 20px;
+    border: solid 1px black;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+}
+  
+input[type=file]::file-selector-button:hover { background: #1d9718; }
+
+.drop-container {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    height: 200px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px dashed #555;
+    color: #444;
+    cursor: pointer;
+    transition: background .2s ease-in-out, border .2s ease-in-out;
+  }
+  
+.drop-container:hover { background: #444; border-color: #111; }
+  
+.drop-container:hover .drop-title {color: #222; }
+  
+.drop-title {
+    color: #444;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    transition: color .2s ease-in-out;
 }
