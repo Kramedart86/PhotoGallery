@@ -195,9 +195,8 @@ button[name="add-btn"] { background-color: #4CAF50; left: 50px; }
 
 button[name="add-btn"]:hover { background-color: #1d9718; }
 
-button[name="del-btn"] { top: 165px; }
-
-button[name="prvt-del-btn"] { top: -35px; }
+button[name="prvt-del-btn"],
+button[name="del-btn"]  { top: -35px; }
 
 button[name="del-btn"],
 button[name="prvt-del-btn"],
