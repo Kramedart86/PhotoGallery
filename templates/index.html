@@ -62,8 +62,9 @@
                 <form action="/search" method="GET">
                     <input type="text" class="query visible-on-small-screen" name="query" placeholder="Поиск" maxlength="10">
                 </form>
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">{{ username }}</a> 
+                
                 {% if logged_in %}
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">{{ username }}</a> 
                 <a href="{{ url_for('get_profile', query=username) }}">Мои изображения</a>
                 <form action="/logout" method="post">
                     <input type="submit" class="btn btn-danger-out" value="Выйти">
@@ -71,6 +72,7 @@
                 {% else %}
                 <button type="button" class="btn btn-primary-main visible-on-small-screen" data-toggle="modal" data-target="#loginModal" name="login-btn">Вход</button>
                 <button type="button" class="btn btn-primary-main visible-on-small-screen" data-toggle="modal" data-target="#registerModal" name="reg-btn">Регистрация</button>
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><</a> 
                 {% endif %}
                 {% if logged_in %}
                     {% if username == 'admin' %}
@@ -164,14 +166,6 @@
             <div class="image-gallery">
                 {% for image in images %}
                 <div class="image-item">
-                    <!-- <div class="description-overlay">
-                         {% if username == image[3] %}
-                            <p class="author">Автор: я</p>
-                        {% else %}
-                            <p class="author">Автор: {{ image[3] }}</p>
-                        {% endif %}
-                    </div> -->
-                    <!-- <p class="description">{{ image[2] }}</p> -->
                     <div class="image-container">
                         <img src="{{ url_for('static', filename='images/' + image[1]) }}" alt="{{ image[2] }}">
                         <div class="overlay">
@@ -181,14 +175,14 @@
                                 <p class="author">{{ image[3] }}</p>
                             {% endif %}
                             <p class="description">{{ image[2] }}</p>
-                            <form action="{{ url_for('delete_image', filename=image[1]) }}" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить изображение?');">
-                                <div class="description-overlay">
-                                    {% if logged_in and (username == image[3]) %}
-                                        <button type="submit" name="del-btn">Удалить</button>
-                                    {% endif %}
-                                </div>
-                            </form>
                         </div>
+                        <form action="{{ url_for('delete_image', filename=image[1]) }}" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить изображение?');">
+                            <div class="description-overlay">
+                                {% if logged_in and (username == image[3]) %}
+                                    <button type="submit" name="del-btn">Удалить</button>
+                                {% endif %}
+                            </div>
+                        </form>
                     </div>
                 </div>
                 {% endfor %}
@@ -215,8 +209,7 @@
                                 {% endif %}
                             </div>
                         </form>
-                    </div>        
-                    
+                    </div>            
                 </div>
                 {% endfor %}
                 {% endif %}
