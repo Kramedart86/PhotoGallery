@@ -178,7 +178,7 @@ window.onscroll = function() {
     var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
 
     if (scrollPosition > 50) { // Если пролистали более 200px
-        header.style.top = "-5.6%"; // Изменяем значение top на -50px
+        header.style.top = "-50.5px"; // Изменяем значение top на -50.5px
     } else {
         header.style.top = "0"; // Возвращаем шапку на место
     }
