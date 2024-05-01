@@ -613,7 +613,7 @@ input[type=file]::file-selector-button:hover { background: #1d9718; }
     transition: background .2s ease-in-out, border .2s ease-in-out;
   }
   
-.drop-container:hover { background: #444; border-color: #111; }
+.drop-container:hover { background: #444444a2; border-color: #111; }
   
 .drop-container:hover .drop-title {color: #222; }
   
@@ -624,3 +624,17 @@ input[type=file]::file-selector-button:hover { background: #1d9718; }
     text-align: center;
     transition: color .2s ease-in-out;
 }
+
+.drop-container.drag-active { background: #444444a2; border-color: #111; }
+
+.drop-container.drag-active .drop-title { color: #222; }
+
+.drop-or {
+    position: relative;
+    left: 187px;
+    top: -10px;
+    width: 0px;
+    color: #eeeeeeb6;
+}
+
+.move-title { position: relative; color: #eeeeeeb6; }
