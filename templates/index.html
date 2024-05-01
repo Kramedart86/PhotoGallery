@@ -14,14 +14,13 @@
 </head>
 <body>
     <header class="header" id="myHeader">
-        <h1><a href="/">Простая Онлайн Галерея</a></h1>
+        <h1><a href="/">Простая Онлайн Галерея</a></h1> <!-- new title Guardian Art (GA) incoming -->
         {% if logged_in %}
             {% if results %}
-                <!-- Доделать кнопку удаления всех изображений конкретного пользователя -->
+                <!-- Кнопка удаления всех изображений конкретного пользователя -->
                 <form method="post" action="{{ url_for('delete_user_images') }}" onsubmit="return confirm('Удалить все Ваши изображения?');">
                     <button type="submit" name="delete-all-btn">Удалить всё</button>
                 </form>
-                <!-- Конец кнопки удаления всех изображений -->
             {% endif %}
             {% if username == 'admin' %}
             <form method="post" action="{{ url_for('clear_gallery') }}" onsubmit="return confirm('Вы уверены, что хотите удалить все изображения?');">
@@ -39,7 +38,6 @@
                 <input type="text" name="query" placeholder="Поиск" maxlength="20">
             </form>
             {% if logged_in %}
-            <!-- <p class="site-msg">Добро пожаловать,</p> -->
             <div class="dropdown">
                 <button onclick="toggleDropdown()" class="dropbtn" >{{ username }}</button>
                 <div id="myDropdown" class="dropdown-content">
@@ -72,7 +70,7 @@
                 {% else %}
                 <button type="button" class="btn btn-primary-main visible-on-small-screen" data-toggle="modal" data-target="#loginModal" name="login-btn">Вход</button>
                 <button type="button" class="btn btn-primary-main visible-on-small-screen" data-toggle="modal" data-target="#registerModal" name="reg-btn">Регистрация</button>
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><</a> 
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><</a> <!-- Кнопка назад (закртие) для бокового меню -->
                 {% endif %}
                 {% if logged_in %}
                     {% if username == 'admin' %}
@@ -147,13 +145,13 @@
                     <span class="close">&times;</span>
                     <!-- Содержимое формы добавления изображения -->
                     <label for="images" class="drop-container" id="dropcontainer">
-                    <form method="post" action="{{ url_for('add_image') }}" enctype="multipart/form-data">
-                        <!-- <span class="drop-title"><p class="move-title">Перетащите изображение сюда</p></span>
-                        <p class="drop-or">или</p> -->
-                        <input type="file" name="image" id="image" required><br>
-                        <textarea name="description" id="description" minlength="3" maxlength="10" placeholder="Название изображения"></textarea><br>
-                        <input type="submit" class="modal-add" value="Добавить">
-                    </form>
+                        <form method="post" action="{{ url_for('add_image') }}" enctype="multipart/form-data">
+                            <span class="drop-title"><p class="move-title">Перетащите изображение сюда</p></span>
+                            <p class="drop-or">или</p>
+                            <input type="file" name="image" id="images" accept="image/*" required><br>
+                            <textarea name="description" id="description" minlength="3" maxlength="10" placeholder="Название изображения"></textarea><br>
+                            <input type="submit" class="modal-add" value="Добавить">
+                        </form>
                     </label>
                 </div>
             </div>
