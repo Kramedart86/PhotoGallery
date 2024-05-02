@@ -95,15 +95,19 @@ a:hover { color: #fff; text-decoration: none;  }
     pointer-events: none;
 }
 
+/* Если текст будет превышать ширину 85px, то оставшийся текст будет заменен многоточием */
 .description {
     color: wheat;
     position: absolute;
-    width: 200px;
+    width: 85px;
     top: 105px;
     left: 10px;
     font-weight: bold;
     font-size: 20px;
     text-shadow: 3px 3px 5px black;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .description-overlay {
@@ -156,8 +160,10 @@ a:hover { color: #fff; text-decoration: none;  }
 .modal-content-prev {
     display: block;
     margin: 10% auto;
-    width: 80%; /* Масштабирование изображение в модальном окне */
+    /* width: 80%; */ /* Масштабирование изображение в модальном окне */
     max-width: 800px; /* Максимальная ширина модального окна */
+    max-height: 100%;
+    max-width: 60%;
 }
 
 /* Кнопка для закрытия модального окна */
@@ -359,7 +365,7 @@ input[type="submit"].btn-danger-out {
     background-color: #75707000;
     color: #818181;
     position: absolute;
-    top: 180px;
+    top: 212px;
     right: 14px;
     padding: 1px 4px;
 }
@@ -463,6 +469,7 @@ button[type="submit"].btn-primary-modal:hover { background-color: #1d9718; borde
     input[name="query"],
     button[name="clear-btn"],
     button[name="add-btn"],
+    button[name="delete-all-btn"],
     span[name="menu"][onclick="openNav()"],
     .dropbtn {
       display: none;
@@ -565,13 +572,28 @@ span[name="menu"] { display: none; }
     button[type="submit"].visible-on-small-screen,
     button[name="delete-all-btn"].visible-on-small-screen { display: inline-block; position: absolute; }
 
-    button[type="submit"].visible-on-small-screen { right: 7px; }
+    button[type="submit"].visible-on-small-screen { right: 7px; width: 235px; }
 
-    button[name="add-btn"].visible-on-small-screen { left: 7px; }
+    button[name="add-btn"].visible-on-small-screen { 
+        left: 155px;
+        top: 137px;
+        height: 30px;
+        padding: 3px 3px;
+        width: 80px;
+        border: none;
+        color: #818181;
+        font-size: 15px;
+        background-color: transparent;
+    }
+
+    button[name="add-btn"].visible-on-small-screen:hover {
+        color: #1d9718;
+        border: solid 1px #1d9718;
+    }
 
     button[name="delete-all-btn"].visible-on-small-screen {
         left: 182px;
-        top: 152px;
+        top: 187px;
         padding: 3px 3px;
         width: 109px;
         border: none;
