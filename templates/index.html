@@ -3,222 +3,60 @@
 <head>
     <title>Простая онлайн галерея</title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='icon.png') }}">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> <!-- Подключение стилей Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}"> <!-- Подключаем свои css стили -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Подключение стилей Bootstrap -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!-- Подключаем свои css стили -->
     <link href='https://fonts.googleapis.com/css?family=Fira Code' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
 <body>
     <header class="header" id="myHeader">
-        <h1><a href="/">Простая Онлайн Галерея</a></h1> <!-- new title Guardian Art -> GuardiArt (GA) incoming -->
+        <h1><a href="/">Простая Онлайн Галерея</a></h1> <!-- new title Guardian Art GuardiArt (GA) incoming -->
         {% if logged_in %}
             {% if results %}
-                <!-- Кнопка удаления всех изображений конкретного пользователя -->
                 <form method="post" action="{{ url_for('delete_user_images') }}" onsubmit="return confirm('Удалить все Ваши изображения?');">
                     <button type="submit" name="delete-all-btn">Удалить всё</button>
                 </form>
             {% endif %}
             {% if username == 'admin' %}
-            <form method="post" action="{{ url_for('clear_gallery') }}" onsubmit="return confirm('Вы уверены, что хотите удалить все изображения?');">
-                <button type="submit" name="clear-btn">Очистить галерею</button>
-            </form>
-            <button class="add-btn" name="add-btn">Добавить</button>
-            {% elif username == 'moder' %}
-            <button class="add-btn" name="add-btn">Добавить</button>
-            {% else %}
-            <button class="add-btn" name="add-btn">Добавить</button>
+                <form method="post" action="{{ url_for('clear_gallery') }}" onsubmit="return confirm('Вы уверены, что хотите удалить все изображения?');">
+                    <button type="submit" name="clear-btn">Очистить галерею</button>
+                </form>
             {% endif %}
+            <button class="add-btn" name="add-btn">Добавить</button>
         {% endif %}
         <div class="container">
-            <form action="/search" method="GET">
-                <input type="text" name="query" placeholder="Поиск" maxlength="20">
-            </form>
-            {% if logged_in %}
-            <div class="dropdown">
-                <button onclick="toggleDropdown()" class="dropbtn" >{{ username }}</button>
-                <div id="myDropdown" class="dropdown-content">
-                  <a href="{{ url_for('get_profile', query=username) }}">Мои изображения</a>
-                  <a href="#" id="logout-link" class="btn btn-danger-out">Выйти</a>
-                </div>
-            </div>
-            {% else %}
-            {% if message %}
-            <p class="not-found-msg">{{ message }}</p>
-            {% else %}
-            <p class="found-msg">{{ message_ok }}</p>
-            <p class="site-msg"></p>
-            {% endif %}
-            <button type="button" class="btn btn-primary-main" data-toggle="modal" data-target="#loginModal" name="login-btn">Вход</button>
-            <button type="button" class="btn btn-primary-main" data-toggle="modal" data-target="#registerModal" name="reg-btn">Регистрация</button>
-            {% endif %}
-            <div id="mySidenav" class="sidenav">
-                <p class="username visible-on-small-screen">{{ username }}</p>
-                <form action="/search" method="GET">
-                    <input type="text" class="query visible-on-small-screen" name="query" placeholder="Поиск" maxlength="20">
-                </form>
-                
-                {% if logged_in %}
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">{{ username }}</a> 
-                <a href="{{ url_for('get_profile', query=username) }}">Мои изображения</a>
-                <form action="/logout" method="post">
-                    <input type="submit" class="btn btn-danger-out" value="Выйти">
-                </form>
-                {% else %}
-                <button type="button" class="btn btn-primary-main visible-on-small-screen" data-toggle="modal" data-target="#loginModal" name="login-btn">Вход</button>
-                <button type="button" class="btn btn-primary-main visible-on-small-screen" data-toggle="modal" data-target="#registerModal" name="reg-btn">Регистрация</button>
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><</a> <!-- Кнопка назад (закртие) для бокового меню -->
-                {% endif %}
-                {% if logged_in %}
-                    {% if username == 'admin' %}
-                    <button class="clear-btn visible-on-small-screen" name="clear-btn" type="submit">Очистить галерею</button>
-                    {% endif %}
-                    <button class="add-btn visible-on-small-screen" name="add-btn">Добавить</button>
-                    <form method="post" action="{{ url_for('delete_user_images') }}" onsubmit="return confirm('Удалить все Ваши изображения?');">
-                        <button class="delete-all-btn visible-on-small-screen" type="submit" name="delete-all-btn">Удалить всё</button>
-                    </form>
-                {% endif %}
-            </div>
-            <!-- Элемент для открытия сайдбара -->
-            <span onclick="openNav()" class="visible-on-small-screen" name="menu" role="button" tabindex="0">меню</span>
+            <!-- Элементы на горизонтальной линии хедера -->
+            {% include 'horizontal_header_line.html' %}
+
+            <!-- Элементы бокового меню -->
+            {% include 'sidebar_menu.html' %}
         </div>
     </header>
-        <!-- Модальное окно для входа -->
-        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="loginModalLabel">Вход</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Форма для входа -->
-                        <form id="loginForm" method="post" action="/login">
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="loginUsername" name="username" maxlength="12" placeholder="Имя пользователя">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Пароль">
-                            </div>
-                            <button type="submit" class="btn btn-primary-modal">Войти</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+    <!-- Модальное окно для входа -->
+    {% include 'modals/login_modal.html' %}
+
+    <!-- Модальное окно для регистрации -->
+    {% include 'modals/register_modal.html' %}
+    <div class="content-main">
+        <!-- Модальное окно для добавления изображения -->
+        {% include 'modals/add_image_modal.html' %}
+
+        <div class="image-gallery">
+            <!-- Главная страница, видимая для всех пользователе -->
+            {% include 'gallery/images_main.html' %}
+
+            <!-- Личная страница пользователя -->
+            {% include 'gallery/images_private.html' %}
         </div>
-        <!-- Модальное окно для регистрации -->
-        <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="registerModalLabel">Регистрация</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Форма для регистрации -->
-                        <form id="registerForm" method="post" action="/register">
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="registerUsername" name="username" minlength="4" maxlength="12" placeholder="Имя пользователя" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control" id="registerPassword" name="password" minlength="4"  placeholder="Пароль" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary-modal">Зарегистрироваться</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="content-main">
-            <!-- Модальное окно для добавления изображения -->
-            <div id="addImageModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <!-- Содержимое формы добавления изображения -->
-                    <label for="images" class="drop-container" id="dropcontainer">
-                        <form method="post" action="{{ url_for('add_image') }}" enctype="multipart/form-data">
-                            <span class="drop-title"><p class="move-title">Перетащите изображение сюда</p></span>
-                            <p class="drop-or">или</p>
-                            <input type="file" name="image" id="images" accept="image/*" required><br>
-                            <textarea name="description" id="description" minlength="3" maxlength="20" placeholder="Название изображения"></textarea><br>
-                            <input type="submit" class="modal-add" value="Добавить">
-                        </form>
-                    </label>
-                </div>
-            </div>
-            {% for image in images %}
-            <div id="imagePreviewModal" class="modal-prev">
-                <span class="close">&times;</span>
-                <img class="modal-content-prev" id="previewImage" value="{{ image[2] }}">
-            </div>
-            {% endfor %}
-            <div class="image-gallery">
-                {% for image in images %}
-                <div class="image-item">
-                    <div class="image-container">
-                        <img src="{{ url_for('static', filename='images/' + image[1]) }}" alt="{{ image[2] }}" title="{{ image[2] }}">
-                        <div class="overlay">
-                            {% if username == image[3] %}
-                                <p class="author">Моё</p>
-                            {% else %}
-                                <p class="author">{{ image[3] }}</p>
-                            {% endif %}
-                            <p class="description">{{ image[2] }}</p>
-                        </div>
-                        <form action="{{ url_for('delete_image', filename=image[1]) }}" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить изображение?');">
-                            <div class="description-overlay">
-                                {% if logged_in and (username == image[3]) %}
-                                    <button type="submit" name="del-btn">Удалить</button>
-                                {% endif %}
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                {% endfor %}
-                <!-- Личная страница пользователя -->
-                {% if results %}
-                {% for image in results %}
-                <div id="imagePreviewModal" class="modal-prev">
-                    <span class="close">&times;</span>
-                    <img class="modal-content-prev" id="previewImage">
-                </div>
-                <div class="image-item">
-                    <div class="description-overlay">
-                        <p class="private-description">{{ image[2] }}</p>
-                    </div>
-                    <div class="image-container">
-                        <img src="{{ url_for('static', filename='images/' + image[1]) }}" alt="{{ image[2] }}">
-                        <div class="overlay">
-                            <p class="description">{{ image[2] }}</p>
-                        </div>
-                        <form action="{{ url_for('delete_image', filename=image[1]) }}" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить изображение?');">
-                            <div class="description-overlay">
-                                {% if logged_in and (username == image[3]) %}
-                                    <button type="submit" name="prvt-del-btn">Удалить</button>
-                                {% endif %}
-                            </div>
-                        </form>
-                    </div>            
-                </div>
-                {% endfor %}
-                {% endif %}
-                <!-- Конец блока личной страницы пользователя -->
-            </div>
-        </div>
+    </div>
     <footer>
         <p>&copy; 2024 Простая Онлайн Галерея</p>
         <a href="https://github.com/Kramedart86/PhotoGallery/tree/feature-branch"><i class="fa fa-github" style="font-size:36px"></i></a>
     </footer>
 </body>
-<!-- Подключение скриптов Bootstrap и jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Подключение скриптов Bootstrap -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" defer></script>
 </html>
