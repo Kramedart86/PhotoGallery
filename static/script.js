@@ -119,7 +119,17 @@ $(document).ready(function(){
         dropContainer.classList.remove("drag-active")
         fileInput.files = e.dataTransfer.files
     })
+});
 
+// Обработчик события контекстного меню
+document.addEventListener('contextmenu', function(e) {
+    // Проверяем, был ли щелчок на изображении
+    var target = e.target;
+    if (target.tagName.toLowerCase() === 'img') {
+        // Предотвращаем стандартное действие контекстного меню (в данном случае скачивание изображения)
+        e.preventDefault();
+        // Можно выполнить другие действия здесь, например, показать оповещение пользователю
+    }
 });
 
 document.addEventListener("DOMContentLoaded", function() {
