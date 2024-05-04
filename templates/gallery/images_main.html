@@ -1,0 +1,26 @@
+{% for image in images %}
+<div class="image-item">
+    <div class="image-container">
+        <img src="{{ url_for('static', filename='images/' + image[1]) }}" alt="{{ image[2] }}" title="{{ image[2] }}">
+        <div class="overlay">
+            {% if username == image[3] %}
+                <p class="author">Моё</p>
+            {% else %}
+                <p class="author">{{ image[3] }}</p>
+            {% endif %}
+            <p class="description">{{ image[2] }}</p>
+        </div>
+        
+        <form action="{{ url_for('delete_image', filename=image[1]) }}" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить изображение?');">
+            <div class="description-overlay">
+                {% if logged_in %}
+                    {% if username == image[3] %}
+                        <button type="submit" name="del-btn">Удалить</button>
+                    {% endif %}
+                    <a href="{{ url_for('download_image', filename=image[1]) }}" class="btn-download" download>↓</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endfor %}

@@ -1,0 +1,21 @@
+<form action="/search" method="GET">
+    <input type="text" name="query" placeholder="Поиск" maxlength="20">
+</form>
+{% if logged_in %}
+<div class="dropdown">
+    <button onclick="toggleDropdown()" class="dropbtn" >{{ username }}</button>
+    <div id="myDropdown" class="dropdown-content">
+      <a href="{{ url_for('get_profile', query=username) }}">Мои изображения</a>
+      <a href="#" id="logout-link" class="btn btn-danger-out">Выйти</a>
+    </div>
+</div>
+{% else %}
+    {% if message %}
+        <p class="not-found-msg">{{ message }}</p>
+    {% else %}
+        <p class="found-msg">{{ message_ok }}</p>
+        <p class="site-msg"></p>
+    {% endif %}
+    <button type="button" class="btn btn-primary-main" data-toggle="modal" data-target="#loginModal" name="login-btn">Вход</button>
+    <button type="button" class="btn btn-primary-main" data-toggle="modal" data-target="#registerModal" name="reg-btn">Регистрация</button>
+{% endif %}

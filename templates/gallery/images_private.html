@@ -1,0 +1,27 @@
+{% if results %}
+{% for image in results %}
+<div id="imagePreviewModal" class="modal-prev">
+    <span class="close">&times;</span>
+    <img class="modal-content-prev" id="previewImage">
+</div>
+<div class="image-item">
+    <div class="description-overlay">
+        <p class="private-description">{{ image[2] }}</p>
+    </div>
+    <div class="image-container">
+        <img src="{{ url_for('static', filename='images/' + image[1]) }}" alt="{{ image[2] }}">
+        <div class="overlay">
+            <p class="description">{{ image[2] }}</p>
+        </div>
+        <form action="{{ url_for('delete_image', filename=image[1]) }}" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить изображение?');">
+            <div class="description-overlay">
+                {% if logged_in and (username == image[3]) %}
+                    <button type="submit" name="prvt-del-btn">Удалить</button>
+                    <a href="{{ url_for('download_image', filename=image[1]) }}" class="btn-download" download>↓</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>            
+</div>
+{% endfor %}
+{% endif %}

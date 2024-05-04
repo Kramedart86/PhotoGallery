@@ -1,0 +1,21 @@
+{% for image in images %}
+<div id="imagePreviewModal" class="modal-prev">
+    <span class="close">&times;</span>
+    <img class="modal-content-prev" id="previewImage" value="{{ image[2] }}">
+</div>
+{% endfor %}
+<div id="addImageModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <!-- Содержимое формы добавления изображения -->
+        <label for="images" class="drop-container" id="dropcontainer">
+            <form method="post" action="{{ url_for('add_image') }}" enctype="multipart/form-data">
+                <span class="drop-title"><p class="move-title">Перетащите изображение сюда</p></span>
+                <p class="drop-or">или</p>
+                <input type="file" name="image" id="images" accept="image/*" required><br>
+                <textarea name="description" id="description" minlength="3" maxlength="20" placeholder="Название изображения"></textarea><br>
+                <input type="submit" class="modal-add" value="Добавить">
+            </form>
+        </label>
+    </div>
+</div>
