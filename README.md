@@ -20,16 +20,25 @@
 Сама структура проекта выглядит следующим образом:
 
       PhotoGallery/
-      ├── app.py
-      ├── account.db
       ├── static/
           ├── images/
           ├── header3.jpg
           ├── icon.png
           ├── script.js
           └── styles.css
-      └── templates/
+      ├── templates/
+          ├── gallery/
+              ├── images_main.html
+              └── images_private.html
+          ├── modals/
+              ├── add_image_modal.html
+              ├── login_modal.html
+              └── register_modal.html
+          ├── horizontal_header_line.html
+          ├── sidebar_menu.html
           └── index.html
+      ├── account.db
+      ├── app.py
       └── requirements.txt
 
 
@@ -54,6 +63,13 @@
 > Чтобы выйти из виртуального окружения, наберите команду `deactivate`.
 
 > #
+
+## [04-05-2024] Список изменений (v 0.7.8):
+* Добавлена кнопка загрузки изображения
+* Добавлен скрипт, обрабатывающий клик ПКМ по изображению. Скачивать можно только авторизованным пользователем
+* Исправлена высота и позиция overlay
+* Мелкие правки в коде проекта и оптимизация index.html
+
 ## [02-05-2024] Список изменений (v 0.7.5):
 * Дизайн:
 > - изменен стиль кнопок в боковом меню и их положение
