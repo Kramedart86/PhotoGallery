@@ -60,6 +60,7 @@ a:hover { color: #fff; text-decoration: none;  }
     flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 70px; /* Добавляем отступ снизу */
+    overflow: hidden;
 }
 
 .image-item,
@@ -77,6 +78,7 @@ a:hover { color: #fff; text-decoration: none;  }
 .image-container {
     position: relative;
     display: inline-block; /* Чтобы элемент занимал только необходимое пространство */
+    max-height: 200px;
 }
 
 .image-container:hover .overlay {
@@ -114,7 +116,7 @@ a:hover { color: #fff; text-decoration: none;  }
     opacity: 0; /* Начальная непрозрачность */
     transition: opacity 0.3s ease; /* Плавное изменение прозрачности */
     display: flex;
-    position: absolute;
+    position: relative;
 }
 
 .image-item:hover .description-overlay { opacity: 1; } /* Сделать оверлей непрозрачным при наведении */
@@ -660,3 +662,14 @@ input[type=file]::file-selector-button:hover { background: #1d9718; }
 }
 
 .move-title { position: relative; color: #eeeeeeb6; }
+
+.btn-download {
+    position: absolute;
+    top: -213px;
+    right: 7px;
+    border: solid 1px grey;
+    border-radius: 5px;
+    padding: 0px 8px;
+}
+
+.btn-download:hover { background-color: #2222227a; }
