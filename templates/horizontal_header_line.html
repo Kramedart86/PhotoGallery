@@ -3,9 +3,10 @@
 </form>
 {% if logged_in %}
 <div class="dropdown">
-    <button onclick="toggleDropdown()" class="dropbtn" >{{ username }}</button>
+    <button onclick="toggleDropdown()" class="dropbtn" title="Профиль">{{ username }}</button>
     <div id="myDropdown" class="dropdown-content">
       <a href="{{ url_for('get_profile', query=username) }}">Мои изображения</a>
+      <a href="#" id="delete-all-link">Удалить всё</a>
       <a href="#" id="logout-link" class="btn btn-danger-out">Выйти</a>
     </div>
 </div>
