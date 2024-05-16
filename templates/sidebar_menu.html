@@ -5,10 +5,8 @@
     </form>
     {% if logged_in %}
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">{{ username }}</a> 
-        <a href="{{ url_for('get_profile', query=username) }}">Мои изображения</a>
-        <form action="/logout" method="post">
-            <input type="submit" class="btn btn-danger-out" value="Выйти">
-        </form>
+        <a href="{{ url_for('get_profile', query=username) }}" name="prvt-imgs">Мои изображения</a>
+        <a href="#" id="logout-link-sidenav" class="btn btn-danger-out" name="btn-logout-link">Выйти</a>
     {% else %}
         <button type="button" class="btn btn-primary-main visible-on-small-screen" data-toggle="modal" data-target="#loginModal" name="login-btn">Вход</button>
         <button type="button" class="btn btn-primary-main visible-on-small-screen" data-toggle="modal" data-target="#registerModal" name="reg-btn">Регистрация</button>
@@ -20,10 +18,8 @@
                 <button class="clear-btn visible-on-small-screen" name="clear-btn" type="submit">Очистить галерею</button>
             </form>
         {% endif %}
-        <button class="add-btn visible-on-small-screen" name="add-btn">Добавить</button>
-        <form method="post" action="{{ url_for('delete_user_images') }}" onsubmit="return confirm('Удалить все Ваши изображения?');">
-            <button class="delete-all-btn visible-on-small-screen" type="submit" name="delete-all-btn">Удалить всё</button>
-        </form>
+        <a href="#" class="add-link visible-on-small-screen" name="add-btn-link">Добавить</a>
+        <a href="#" id="delete-all-link-visible-on-small-screen" name="del-all-btn-link">Удалить всё</a>
     {% endif %}
 </div>
 <!-- Элемент для открытия сайдбара -->
