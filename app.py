@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, g, session, send_from_directory
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_mail import Mail, Message
 
+import secrets
 import os
 import sqlite3
 
@@ -10,32 +12,41 @@ app.config['UPLOAD_FOLDER'] = 'static/images/'
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
 app.secret_key = 'gotohellbobbykotick'  # Секретный ключ для сеансов. Нужен для обеспечения безопасности сессий на стороне клиента.
 
+# Конфигурация Flask-Mail
+app.config['MAIL_SERVER'] = 'smtp.yandex.ru'  # Адрес SMTP сервера
+app.config['MAIL_PORT'] = 587  # Порт SMTP сервера (обычно 587 для TLS или 465 для SSL)
+app.config['MAIL_USE_TLS'] = True  # Использовать ли TLS
+app.config['MAIL_USERNAME'] = 'i.pavluschin@ya.ru'  # Ваше имя пользователя на почтовом сервере
+app.config['MAIL_PASSWORD'] = 'iyrirtmegxqynjam'  # Ваш пароль на почтовом сервере
+app.config['MAIL_DEFAULT_SENDER'] = ('GuardiArt', 'i.pavluschin@ya.ru')
+
+mail = Mail(app)
+
 DATABASE_ACC = 'account.db'
 
-# Создание подключения к базе данных аккаунтов
+# Функция для установки соединения с базой данных
 def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE_ACC)
-    return db
+    conn = sqlite3.connect(DATABASE_ACC)
+    conn.row_factory = sqlite3.Row
+    return conn
 
-# Инициализация базы данных
-def init_db():
-    with app.app_context():
-        db = get_db()
-        cursor = db.cursor()
-        cursor.execute('''CREATE TABLE IF NOT EXISTS users (
-                          id INTEGER PRIMARY KEY AUTOINCREMENT,
-                          username TEXT UNIQUE NOT NULL,
-                          password TEXT NOT NULL)''')
-        db.commit()
+# Создание таблицы users, если она не существует
+def create_table_users():
+    conn = get_db()
+    conn.execute('''CREATE TABLE IF NOT EXISTS users
+             (id INTEGER PRIMARY KEY AUTOINCREMENT,
+              username TEXT NOT NULL,
+              email TEXT NOT NULL UNIQUE,
+              password TEXT NOT NULL,
+              activation_link TEXT)''')
+    conn.commit()
+    conn.close()
 
-# Закрытие подключения к базе данных
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+create_table_users()
+
+# Генерация уникальной ссылки
+def generate_activation_link():
+    return secrets.token_urlsafe(16)
 
 @app.route('/search')
 def search():
@@ -71,11 +82,11 @@ def get_profile():
         return render_template('index.html', results=results, username=username, logged_in=logged_in)
 
 # Регистрация нового пользователя
-def register_user(username, password):
+def register_user(username, password, email, activation_link):
     db = get_db()
     cursor = db.cursor()
     try:
-        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, generate_password_hash(password)))
+        cursor.execute("INSERT INTO users (username, email, password, activation_link) VALUES (?, ?, ?, ?)", (username, email, generate_password_hash(password), activation_link))
         db.commit()
         return True
     except sqlite3.IntegrityError:
@@ -90,7 +101,7 @@ def find_user(username):
 
 def verify_password(username, password):
     user = find_user(username)
-    if user and check_password_hash(user[2], password):
+    if user and check_password_hash(user[3], password):
         return True
     elif user is None:
         return "Пользователь не найден"
@@ -112,11 +123,13 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        
         user = find_user(username)
+
         if user is None:
             return render_template('index.html', message='Пользователь не найден', images=images)
-        elif check_password_hash(user[2], password):
-            session['username'] = username        
+        elif check_password_hash(user[3], password) and not user['activation_link']:
+            session['username'] = username
             return redirect('/')
         else:            
             return render_template('index.html', message='Неправильное имя пользователя или пароль', images=images)
@@ -134,12 +147,38 @@ def register():
 
     if request.method == 'POST':
         username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
-        if register_user(username, password):
-            return render_template('index.html', message_ok='Регистрация успешна', images=images)
+
+        activation_link = generate_activation_link()
+
+        if register_user(username, password, email, activation_link):
+            msg = Message('Подтверждение регистрации', recipients=[email])
+            msg.body = f'Привет, {username}! Перейдите по следующей ссылке, чтобы завершить регистрацию: {request.host_url}activate/{activation_link}'
+            mail.send(msg)
+            return render_template('index.html', message_ok='Регистрация успешна, проверьте почту.', images=images)
         else:
             return render_template('index.html', message='Пользователь уже существует', images=images)
     return render_template('index.html')
+
+# Страница активации
+@app.route('/activate/<activation_link>')
+def activate(activation_link):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE activation_link=?", (activation_link,))
+    user = cursor.fetchone()
+
+    if user:
+        # Пользователь найден, активируем его аккаунт
+        cursor.execute("UPDATE users SET activation_link=NULL WHERE id=?", (user['id'],))
+        conn.commit()
+        conn.close()
+        return render_template('index.html', message_ok='Ваш аккаунт успешно активирован!')
+    else:
+        return render_template('index.html', message='Неверная ссылка активации или аккаунт уже активирован.')
+
+    return redirect(url_for('login'))
 
 @app.route('/logout', methods=['POST'])
 def logout():
