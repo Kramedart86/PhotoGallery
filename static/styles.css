@@ -24,9 +24,9 @@ body {
     min-height: 100vh; /* Устанавливаем минимальную высоту body равной высоте окна браузера */
 }
 
-h1 { color: #fff; background-color: #000000; /* Цвет выделенного текста */ }
+h1 { color: #fff; background-color: #000000; font-weight: 1000;}
 
-h2 { text-align: center; color: white; }
+h2 { text-align: center; color: white; width: 100%;}
 
 ul {
     overflow: auto; /* Установка области прокрутки для случая, когда изображения занимают больше места, чем доступно на экране */
@@ -186,10 +186,10 @@ a:hover { color: #fff; text-decoration: none;  }
 button[name="add-btn"],
 button[name="clear-btn"] {
     display: inline-block; /* Устанавливаем блочно-строчный тип элемента */
-    padding: 6px 15px;
+    /* padding: 6px 15px; */
     color: #fff;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 20px;
     transition: background-color 0.3s;
     position: absolute;
     bottom: 5px;
@@ -199,9 +199,15 @@ button[name="clear-btn"] { background-color: #af4c4c; right: 50px; }
 
 button[type="submit"]:hover { background-color: #9b2c2c; }
 
-button[name="add-btn"] { background-color: #4CAF50; left: 50px; }
+button[name="add-btn"] {
+    border: none;
+    background-color: #4caf5000;
+    right: 143px;
+    bottom: 65px;
+    height: 35px;
+}
 
-button[name="add-btn"]:hover { background-color: #1d9718; }
+button[name="add-btn"]:hover { background-color: #363636; }
 
 button[name="prvt-del-btn"],
 button[name="del-btn"]  { top: -35px; }
@@ -316,7 +322,7 @@ input[name="query"] {
     left: 58px;
     border-radius: 5px;
     background-color: black;
-    border-color: #4CAF50;
+    border-color: #4CAF50; /* #FFB606 */
     color: #ccc;
 }
 
@@ -362,17 +368,18 @@ button[name="reg-btn"]:hover { background-color: #1d9718; }
     padding: 1px 6px;
 }
 
-input[type="submit"].btn-danger-out {
+/* input[type="submit"].btn-danger-out {
     display: inline-block;
     background-color: #75707000;
     color: #818181;
     position: absolute;
+    border: none;
     top: 212px;
     right: 14px;
     padding: 1px 4px;
 }
 
-input[type="submit"].btn-danger-out:hover { border-color: #fff; color: #fff; }
+input[type="submit"].btn-danger-out:hover { border-color: #fff; color: #fff; } */
 
 /* Новый цвет фона, границы, текста при наведении для кнопок с классом btn-primary-modal */
 button[type="submit"].btn-primary-modal { background-color: #4CAF50; border-color: #1d9718; color: #fff; }
@@ -512,22 +519,33 @@ span[name="menu"] { display: none; }
         top: 60px;
         right: 70px;
         background-color: #111;
-        border: solid 2px #4CAF50;
+        border: solid 2px #4CAF50; /* #FFB606 */
         width: 50px;
         border-radius: 5px;
         color: #ffffff;
     }
 
-    .sidenav a {
+    .sidenav a,
+    .sidenav a[name="prvt-imgs"],
+    .sidenav a[name="add-btn-link"],
+    .sidenav a[name="del-all-btn-link"],
+    .sidenav a[name="btn-logout-link"] {
         padding: 8px 8px 8px 32px;
         text-decoration: none;
         color: #818181;
+        border: none;
         display: block;
         transition: 0.3s;
         position: absolute;
         right: 10px;
         top: 95px;
     }
+
+    .sidenav a[name="add-btn-link"] { top: 130px; }
+
+    .sidenav a[name="del-all-btn-link"] { top: 165px; }
+
+    .sidenav a[name="btn-logout-link"] { top: 205px; }
 
     .sidenav {
         display: inline-block;
@@ -570,27 +588,18 @@ span[name="menu"] { display: none; }
         border-bottom: solid;
     }
 
-    button[name="add-btn"].visible-on-small-screen, 
-    button[type="submit"].visible-on-small-screen,
-    button[name="delete-all-btn"].visible-on-small-screen { display: inline-block; position: absolute; }
-
     button[type="submit"].visible-on-small-screen { right: 7px; width: 235px; }
 
-    button[name="add-btn"].visible-on-small-screen { 
-        left: 155px;
-        top: 137px;
-        height: 30px;
-        padding: 3px 3px;
-        width: 80px;
+    .sidenav a[name="prvt-imgs"]:hover,
+    .sidenav a[name="add-btn-link"]:hover,
+    .sidenav a[name="del-all-btn-link"]:hover,
+    .sidenav a[name="btn-logout-link"]:hover {
+        color: white;
         border: none;
-        color: #818181;
-        font-size: 15px;
-        background-color: transparent;
-    }
-
-    button[name="add-btn"].visible-on-small-screen:hover {
-        color: #1d9718;
-        border: solid 1px #1d9718;
+        border-radius: 0px;
+        width: 100%;
+        text-align: right;
+        background-color: #494949;
     }
 
     button[name="delete-all-btn"].visible-on-small-screen {
@@ -604,8 +613,9 @@ span[name="menu"] { display: none; }
     }
 
     button[name="delete-all-btn"].visible-on-small-screen:hover {
-        color: #c93535;
-        border: solid 1px #c93535;
+        color: white; /* #c93535; */
+        border: none;
+        /* border: solid 1px #c93535; */
     }
 }
 
