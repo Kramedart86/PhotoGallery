@@ -46,6 +46,17 @@ a { color: #fff; }
 /* Изменяем цвет текста при наведении и убираем подчеркивание при наведении */
 a:hover { color: #fff; text-decoration: none;  }
 
+a[name="mage-space"] {
+    color: #d18b21;
+    display: inline-block;
+    background-color: #000000;
+    border-radius: 5px;
+}
+
+a[name="mage-space"]:hover {
+    color: #eb9d28;
+}
+
 .content-main {
     margin-top: 140px;
     padding: 60px;
