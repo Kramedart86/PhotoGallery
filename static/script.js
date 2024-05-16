@@ -186,6 +186,19 @@ window.onclick = function(event) {
 $(document).ready(function() {
     $('#logout-link').click(function(e) {
         e.preventDefault(); // Предотвращаем выполнение стандартного действия по переходу по ссылке
+
+        // Отправляем POST-запрос на указанный адрес
+        $.post('/logout', function(data) {
+            // Обработка ответа сервера, если это необходимо
+            // Например, перенаправление пользователя на другую страницу
+            window.location.href = '/'; // Перенаправление на главную страницу
+        });
+    });
+});
+
+$(document).ready(function() {
+    $('#logout-link-sidenav').click(function(e) {
+        e.preventDefault(); // Предотвращаем выполнение стандартного действия по переходу по ссылке
         
         // Отправляем POST-запрос на указанный адрес
         $.post('/logout', function(data) {
@@ -216,3 +229,65 @@ window.onscroll = function() {
         header.style.top = "0"; // Возвращаем шапку на место
     }
 }
+
+document.getElementById('delete-all-link').addEventListener('click', function(event) {
+    event.preventDefault();
+    document.getElementById('delete-all-form').submit();
+});
+
+$(document).ready(function() {
+    $('#delete-all-link').click(function(e) {
+        if (confirm('Вы уверены, что хотите удалить все изображения?')) {
+            // Отправляем POST-запрос на указанный адрес
+            $.post('/delete_user_images', function(data) {
+                // Обработка ответа сервера, если это необходимо
+                // Например, вывод сообщения об успешном удалении изображений
+                window.location.href = '/';
+            });
+        } else {
+            // Nothing to do
+        }
+    });
+    $('#delete-all-link-visible-on-small-screen').click(function(e) {
+        if (confirm('Вы уверены, что хотите удалить все изображения?')) {
+            // Отправляем POST-запрос на указанный адрес
+            $.post('/delete_user_images', function(data) {
+                // Обработка ответа сервера, если это необходимо
+                // Например, вывод сообщения об успешном удалении изображений
+                window.location.href = '/';
+            });
+        } else {
+            // Nothing to do
+        }
+    });
+});
+
+// Находим ссылку по классу
+var addLink = document.querySelector('.add-link');
+// Находим модальное окно по его идентификатору
+var modal = document.getElementById('addImageModal');
+
+// Добавляем обработчик события для клика по ссылке
+addLink.addEventListener('click', function(event) {
+    event.preventDefault(); // Предотвращаем переход по ссылке
+
+    // Отображаем модальное окно
+    modal.style.display = 'block';
+});
+
+// Находим кнопку закрытия модального окна
+var closeButton = modal.querySelector('.close');
+
+// Добавляем обработчик события для клика по кнопке закрытия модального окна
+closeButton.addEventListener('click', function(event) {
+    // Скрываем модальное окно
+    modal.style.display = 'none';
+});
+
+// Добавляем обработчик события для клика вне модального окна
+window.addEventListener('click', function(event) {
+    if (event.target == modal) {
+        // Скрываем модальное окно, если клик был сделан за его пределами
+        modal.style.display = 'none';
+    }
+});
