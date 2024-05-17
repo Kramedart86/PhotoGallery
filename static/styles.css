@@ -86,11 +86,7 @@ a[name="mage-space"]:hover {
     border-radius: 5px;
 }
 
-.image-container {
-    position: relative;
-    display: inline-block; /* Чтобы элемент занимал только необходимое пространство */
-    max-height: 200px;
-}
+.image-container { position: relative; max-height: 200px; }
 
 .image-container:hover .overlay {
     opacity: 1; /* Показываем квадрат при наведении на изображение */
