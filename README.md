@@ -47,13 +47,14 @@
 2. Перейти к папке проекта
 3. **(Для Windows)** необходимо ввести Set-ExecutionPolicy unrestricted и набрать `y`, если надо подтвердить
 4. Создать виртуальное окружение командой `py -m venv venv` (Если команда `py` не распознаётся, нужно использовать `python`)
+5. Активировать окружение через команду
 <details> 
-  <summary>(для Windows)</summary>
-     5. Активировать окружение через команду venv\Scripts\Activate.ps1 
+  <summary><b>(для Windows</b>)</summary>
+      venv\Scripts\Activate.ps1 
 </details>
 <details> 
-  <summary>(для Linux)</summary>
-    5. Активировать окружение через команду venv\bin\activate
+  <summary><b>(для Linux)</b></summary>
+      venv\bin\activate
 </details>
 
 6. Установить библиотеки и зависимости через `pip install -r requirements.txt`
