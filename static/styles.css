@@ -599,7 +599,12 @@ span[name="menu"] { display: none; }
         border-bottom: solid;
     }
 
-    button[type="submit"].visible-on-small-screen { right: 7px; width: 235px; }
+    button[type="submit"].visible-on-small-screen { 
+        display: inline-block; 
+        position: absolute; 
+        right: 7px; 
+        width: 235px; 
+    }
 
     .sidenav a[name="prvt-imgs"]:hover,
     .sidenav a[name="add-btn-link"]:hover,
