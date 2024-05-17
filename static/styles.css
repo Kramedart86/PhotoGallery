@@ -271,7 +271,7 @@ button[name="delete-all-btn"]:hover {
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Ширина модального окна */
-    height: 40%; /* Высота модального окна */
+    min-height: 350px;
     max-width: 500px; /* Максимальная ширина */
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     animation-name: animatetop;
