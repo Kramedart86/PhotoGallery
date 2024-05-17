@@ -5,9 +5,6 @@
     <img class="modal-content-prev" id="previewImage">
 </div>
 <div class="image-item">
-    <div class="description-overlay">
-        <p class="private-description">{{ image[2] }}</p>
-    </div>
     <div class="image-container">
         <img src="{{ url_for('static', filename='images/' + image[1]) }}" alt="{{ image[2] }}" title="{{ image[2] }}">
         <div class="overlay">
